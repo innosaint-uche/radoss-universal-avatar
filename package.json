@@ -33,6 +33,8 @@
     "desktop-setup/src-tauri/Cargo.lock",
     "desktop-setup/src-tauri/build.rs",
     "desktop-setup/src-tauri/tauri.conf.json",
+    "desktop-setup/src-tauri/tauri.linux.conf.json",
+    "desktop-setup/src-tauri/tauri.windows.conf.json",
     "desktop-setup/src-tauri/src/main.rs",
     "desktop-setup/src-tauri/capabilities/default.json",
     "desktop-setup/src-tauri/icons",
