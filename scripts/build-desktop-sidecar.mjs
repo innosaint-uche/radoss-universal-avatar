@@ -36,7 +36,9 @@ fs.mkdirSync(binariesDir, { recursive: true });
 
 const esbuildBin = path.join(root, "node_modules", "esbuild", "bin", "esbuild");
 if (!fs.existsSync(esbuildBin)) throw new Error("esbuild is required; run npm install first");
-execFileSync(process.execPath, [esbuildBin,
+const esbuildCommand = process.platform === "win32" ? process.execPath : esbuildBin;
+const esbuildArgs = process.platform === "win32" ? [esbuildBin] : [];
+execFileSync(esbuildCommand, [...esbuildArgs,
   source,
   "--bundle",
   "--platform=node",
