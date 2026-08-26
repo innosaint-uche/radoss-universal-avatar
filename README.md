@@ -86,6 +86,9 @@ npm pack --dry-run
 
 See [`docs/NO_CODE_SETUP.md`](docs/NO_CODE_SETUP.md) for the evidence contract and release gates, and [`desktop-setup/README.md`](desktop-setup/README.md) for the Tauri packaging boundary.
 
+See [`docs/RELEASE_STATUS.md`](docs/RELEASE_STATUS.md) for the current
+developer, local-validation, and customer-release boundaries.
+
 ## Universal QA
 
 Reusable browser and live-surface E2E belongs in the central
