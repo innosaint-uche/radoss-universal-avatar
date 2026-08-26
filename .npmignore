@@ -1,0 +1,3 @@
+.build/
+desktop-setup/src-tauri/binaries/
+desktop-setup/src-tauri/target/

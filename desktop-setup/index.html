@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Set up your personal Avatar and connect supported AI agents without editing configuration files." />
+    <title>Radoss Universal Avatar setup</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">RADOSS UNIVERSAL AVATAR</p>
+          <h1>Make your AI know how to work with you.</h1>
+          <p class="lede">Connect your accounts once. Hermes is the visible orchestrator; NAAS runs the guarded setup while your Avatar and memory stay under your control.</p>
+        </div>
+        <div class="status-pill" id="overall-status" role="status" aria-live="polite">Checking setup…</div>
+      </header>
+      <nav class="journey" aria-label="Setup journey">
+        <div class="journey-step active"><span>01</span><strong>Avatar</strong><small>Create your identity</small></div>
+        <div class="journey-step"><span>02</span><strong>Account</strong><small>Connect in browser</small></div>
+        <div class="journey-step"><span>03</span><strong>Agents</strong><small>Configure automatically</small></div>
+        <div class="journey-step"><span>04</span><strong>Health</strong><small>Check real protocol use</small></div>
+        <div class="journey-step"><span>05</span><strong>Control</strong><small>Backup and privacy</small></div>
+        <div class="journey-step"><span>06</span><strong>Continue</strong><small>Use your Avatar anywhere</small></div>
+      </nav>
+      <section class="grid" aria-label="Setup overview">
+        <article class="card hero-card">
+          <div class="card-heading"><div><p class="eyebrow">START HERE</p><h2>Set up your Avatar</h2></div><span class="step-number">01</span></div>
+          <label class="field-label" for="avatar-name">Avatar name</label>
+          <input id="avatar-name" value="My Avatar" maxlength="80" autocomplete="off" aria-describedby="avatar-help" />
+          <p id="avatar-help">We will create your Avatar, open a secure browser connection, configure Codex, Antigravity, and Hermes, and check what is actually working.</p>
+          <button class="primary" id="setup-button">Set up my Avatar</button>
+          <button class="secondary" id="retry-button">Retry last setup</button>
+          <p id="setup-detail" class="setup-detail" role="status" aria-live="polite">Your setup is reversible. We create a backup before changing anything.</p>
+          <p class="microcopy">No terminal. No config editing.</p>
+        </article>
+        <article class="card authority-card">
+          <div class="card-heading"><div><p class="eyebrow">AUTHORITY</p><h2>Where your Avatar lives</h2></div></div>
+          <div id="authority-status" class="rows"><p class="muted">Checking NAAS authority…</p></div>
+          <p class="microcopy">NAAS remains canonical. Hosted ChatGPT and Claude connections are shown only after their separate gateway is verified.</p>
+        </article>
+        <article class="card">
+          <div class="card-heading"><div><p class="eyebrow">PRIVACY</p><h2>Who controls memory?</h2></div></div>
+          <label class="field-label" for="privacy-mode">Memory mode</label>
+          <select id="privacy-mode"><option value="local_only">Local only</option><option value="local_and_sync">Local + cloud sync</option><option value="paused">Pause setup and memory</option></select>
+          <button class="secondary" id="privacy-button">Save privacy choice</button>
+          <p class="microcopy">Telemetry is off by default. Cloud sync is not enabled until configured.</p>
+        </article>
+        <article class="card">
+          <div class="card-heading"><div><p class="eyebrow">OPTIONAL MEMORY</p><h2>Readable memory projection</h2></div><div class="button-row compact"><button class="secondary small" id="reme-button" hidden>Set up ReMe</button><button class="secondary small" id="reme-project-button" hidden>Project approved memory</button></div></div>
+          <div id="memory-projection" class="rows"><p class="muted">Checking ReMe…</p></div>
+          <p class="microcopy">SQLite + FTS5 remains canonical. ReMe is optional, local, user-owned, and never installed or started silently.</p>
+        </article>
+        <article class="card wide-card">
+          <div class="card-heading"><div><p class="eyebrow">CONNECTED AGENTS</p><h2>One control surface</h2></div><button class="quiet" id="refresh-button">Refresh</button></div>
+          <div id="agents" class="rows"><p class="muted">Loading agents…</p></div>
+        </article>
+        <article class="card wide-card">
+          <div class="card-heading"><div><p class="eyebrow">EVIDENCE</p><h2>What is verified?</h2></div><button class="secondary small" id="doctor-button">Run health check</button></div>
+          <div id="providers" class="rows"><p class="muted">Loading provider status…</p></div>
+        </article>
+        <article class="card wide-card security-card" id="security-card" hidden>
+          <div class="card-heading"><div><p class="eyebrow">SECURITY REVIEW</p><h2>Review before sharing or publishing</h2></div></div>
+          <div id="security-warnings" class="rows"></div>
+          <p class="microcopy">Radoss does not copy these values into its own state. Rotate embedded credentials or replace them with environment references.</p>
+        </article>
+        <article class="card wide-card danger-card">
+          <div class="card-heading"><div><p class="eyebrow">CONTROL</p><h2>Backup and disconnect</h2></div></div>
+          <div class="button-row"><button class="secondary" id="backup-button">Create backup</button><button class="secondary" id="rollback-button">Restore last backup</button><button class="danger" id="disconnect-button">Disconnect Hugging Face</button></div>
+          <p class="microcopy">Disconnect removes the provider credential, its Hermes OAuth session, and its adapter entries. Rollback restores files; reconnect may be required.</p>
+        </article>
+      </section>
+      <footer class="footer"><span id="last-action" role="status" aria-live="polite">Ready.</span><span id="release-status" class="release-status" role="status">Checking release channel…</span><span>NAAS is the authority. Providers are replaceable.</span></footer>
+    </main>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

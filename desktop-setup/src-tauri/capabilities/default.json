@@ -1,0 +1,19 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "The setup window may start only the bundled Radoss setup sidecar.",
+  "windows": ["main"],
+  "permissions": [
+    "core:default",
+    {
+      "identifier": "shell:allow-spawn",
+      "allow": [
+        {
+          "name": "binaries/radoss-setup",
+          "sidecar": true,
+          "args": ["--port", { "validator": "49312" }]
+        }
+      ]
+    }
+  ]
+}

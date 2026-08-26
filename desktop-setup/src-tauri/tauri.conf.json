@@ -1,0 +1,32 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Radoss Universal Avatar",
+  "version": "0.2.0",
+  "identifier": "com.radoss.universal-avatar",
+  "build": {
+    "beforeDevCommand": "node bin/radoss.mjs setup --no-open --port 49312",
+    "beforeBuildCommand": "node scripts/build-desktop-app.mjs",
+    "devUrl": "http://127.0.0.1:49312/",
+    "frontendDist": "../.build/frontend"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "Radoss Universal Avatar",
+        "width": 1200,
+        "height": 820,
+        "minWidth": 720,
+        "minHeight": 640,
+        "resizable": true
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; connect-src 'self' http://127.0.0.1:* https://huggingface.co; img-src 'self' data:; style-src 'self'; script-src 'self'"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "externalBin": ["binaries/radoss-setup", "binaries/radoss-keychain-helper"]
+  }
+}

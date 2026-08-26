@@ -1,0 +1,59 @@
+{
+  "name": "radoss-universal-cli",
+  "version": "0.2.0",
+  "description": "Universal user-owned Avatar setup, local MCP orchestration, and OAuth connection tooling",
+  "license": "MIT",
+  "homepage": "https://naavos.radoss.agency",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/innosaint-uche/radoss-universal-avatar.git"
+  },
+  "bugs": {
+    "url": "https://github.com/innosaint-uche/radoss-universal-avatar/issues",
+    "email": "hello@naavos.radoss.agency"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "bin": {
+    "radoss": "bin/radoss.mjs"
+  },
+  "files": [
+    "bin",
+    "bin/radoss-mcp.mjs",
+    "lib",
+    "desktop-setup/index.html",
+    "desktop-setup/app.js",
+    "desktop-setup/styles.css",
+    "desktop-setup/favicon.svg",
+    "desktop-setup/README.md",
+    "desktop-setup/sidecar-entry.mjs",
+    "desktop-setup/src-tauri/Cargo.toml",
+    "desktop-setup/src-tauri/Cargo.lock",
+    "desktop-setup/src-tauri/build.rs",
+    "desktop-setup/src-tauri/tauri.conf.json",
+    "desktop-setup/src-tauri/src/main.rs",
+    "desktop-setup/src-tauri/capabilities/default.json",
+    "desktop-setup/src-tauri/icons",
+    "docs",
+    "scripts"
+  ],
+  "scripts": {
+    "radoss": "node bin/radoss.mjs",
+    "prepublishOnly": "npm test && npm audit --omit=dev --audit-level=high && node scripts/check-public-package.mjs",
+    "desktop:sidecar": "node scripts/build-desktop-app.mjs",
+    "desktop:package:macos": "node scripts/package-local-macos-bundle.mjs",
+    "test": "node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "commander": "^11.1.0"
+  },
+  "packageManager": "pnpm@9.14.4+sha512.c8180b3fbe4e4bca02c94234717896b5529740a6cbadf19fa78254270403ea2f27d4e1d46a08a0f56c89b63dc8ebfd3ee53326da720273794e6200fcf0d184ab",
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2"
+  }
+}
