@@ -253,3 +253,12 @@ Not yet validated:
 4. named human acceptance of the signed packaged flow on each supported platform.
 
 Until those gates pass, the desktop product remains **NO-GO for public release** even though the local wizard and lifecycle API are usable.
+
+## Verification record — 2026-08-26 current source and QA pass
+
+The Universal Avatar source is now public at
+`https://github.com/innosaint-uche/radoss-universal-avatar` with the
+`v0.2.0-public-source` baseline tag. The central QA harness now covers the
+Codex, Antigravity, Hermes, NAAS, and packaged Tauri adapters in one run.
+This expands verification coverage; it does not remove the external release
+gates above.
