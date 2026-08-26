@@ -13,7 +13,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-14, ubuntu-24.04, windows-2022]
+        include:
+          - os: macos-14
+            bundles: app,dmg
+          - os: ubuntu-24.04
+            bundles: deb,rpm
+          - os: windows-2022
+            bundles: msi
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -40,7 +46,7 @@ jobs:
         run: npm run desktop:sidecar
 
       - name: Build unsigned Tauri bundle
-        run: npx @tauri-apps/cli@latest build --ci --no-sign
+        run: npx @tauri-apps/cli@latest build --ci --no-sign --bundles "${{ matrix.bundles }}"
 
       - name: Upload unsigned artifacts
         uses: actions/upload-artifact@v4

@@ -32,7 +32,7 @@ claims of completed production features in this baseline.
 | NAAS public source mirror | Available | [repository](https://github.com/innosaint-uche/naavos), tag `v0.1.0-public-source` |
 | Local CLI and adapters | Validated locally | 31 universal tests; central `local-agents` QA passed |
 | Packaged macOS no-code journey | Validated locally | Central Tauri adapter passed isolated setup/persistence journey |
-| Cross-platform unsigned build path | Workflow available; first matrix exposed icon/esbuild defects | Manual `Desktop build (unsigned)` workflow; signing and OS credential stores remain separate gates |
+| Cross-platform unsigned build path | macOS and Windows bundles passed; Linux deb/rpm path bounded for rerun | Manual `Desktop build (unsigned)` workflow; AppImage, signing, and OS credential stores remain separate gates |
 | Public dashboard | Live controlled-development surface | `https://naavos.radoss.agency` returned HTTP 200 |
 | Branded MCP route | Live and protocol-protected | `https://mcp.naavos.radoss.agency/mcp` with health/OAuth discovery verified |
 | Customer-ready hosted release | Not yet approved | External evidence below remains open |
