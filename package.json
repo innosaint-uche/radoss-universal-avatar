@@ -44,6 +44,7 @@
   "scripts": {
     "radoss": "node bin/radoss.mjs",
     "prepublishOnly": "npm test && npm audit --omit=dev --audit-level=high && node scripts/check-public-package.mjs",
+    "public:preflight": "node scripts/check-public-package.mjs",
     "desktop:sidecar": "node scripts/build-desktop-app.mjs",
     "desktop:package:macos": "node scripts/package-local-macos-bundle.mjs",
     "test": "node --test test/*.test.mjs"
