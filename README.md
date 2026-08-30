@@ -17,6 +17,12 @@ Use the signed desktop installer when it is released:
 
 The desktop wizard creates encrypted local backups before mutations and exposes retry, rollback, privacy, disconnect, health, and security controls.
 
+There are two release surfaces. `individual_local` is the personal desktop
+handoff: one user's Avatar, local memory, and local agent adapters. `public` is
+the shared hosted NAAS service and its hosted-client integrations; it requires
+additional multi-user and host-acceptance evidence. A local personal handoff
+must not be described as proof that the shared hosted service is tenant-safe.
+
 The product has three deliberately different connection paths:
 
 - **No-code users:** use the desktop wizard and browser OAuth; never copy a
