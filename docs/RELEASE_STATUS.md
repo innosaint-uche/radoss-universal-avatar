@@ -28,7 +28,7 @@ claims of completed production features in this baseline.
 
 | Surface | Status | Evidence |
 | --- | --- | --- |
-| Public source for developers | Available | [repository](https://github.com/innosaint-uche/radoss-universal-avatar), current `main` at `6c0fe41`; clean source tag `v0.2.0-public-source` |
+| Public source for developers | Available | [repository](https://github.com/innosaint-uche/radoss-universal-avatar), current `main` at `f61d85b`; clean source tag `v0.2.0-public-source` |
 | NAAS public source mirror | Available | [repository](https://github.com/innosaint-uche/naavos), tag `v0.1.0-public-source` |
 | Local CLI and adapters | Validated locally | 31 universal tests; central `local-agents` QA passed |
 | Packaged macOS no-code journey | Validated locally | Central Tauri adapter passed isolated setup/persistence journey |

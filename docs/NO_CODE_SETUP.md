@@ -150,11 +150,24 @@ Before sharing a diagnostic, snapshot, or public build, the wizard scans support
 
 Hermes is the selected single visible orchestration agent in the product policy. The wizard verifies the exact Hermes Avatar profile with `hermes -p avatar mcp list` and `hermes -p avatar mcp test radoss_avatar`; it does not silently switch or overwrite the user's default Hermes profile. NAAS remains the guarded setup control plane underneath that visible orchestration surface. All mutating local tools require explicit `confirm=true`; the packaged Hermes-driven installation handoff still needs a signed end-to-end user-approval run.
 
-## Verification record — 2026-08-24
+## Verification update — 2026-08-31
+
+- `npm test`: 33/33 tests passed, including the separate `individual_local`
+  and hosted `public` release-gate behavior.
+- `npm run public:preflight`: passed; 97 public-package files scanned.
+- Public CI run `33342584684`: passed on current source `f61d85b5`.
+- Desktop build run `33342208151`: macOS, Windows, and Linux unsigned bundles
+  passed for runtime commit `3ce82c0`; later commits in this sequence changed
+  documentation only.
+- Central QA run `run-2026-08-30T23-43-13-287Z`: local agents, live NAAS, and
+  packaged Tauri adapters passed. Two Antigravity embedded-credential field
+  warnings remain intentionally visible and redacted.
+
+## Historical verification record — 2026-08-24
 
 Validated locally:
 
-- `npm test`: the current implementation passes 31/31, including OAuth, MCP,
+- `npm test`: that historical snapshot passed 31/31, including OAuth, MCP,
   setup, memory, Hermes, retry, rollback, disconnect, security, HTTP, and
   release-gate coverage plus secure-session reuse.
 - Browser smoke test: rendered the setup page, named an Avatar, completed setup, paused privacy, blocked retry, resumed local-only mode, retried successfully, and created a backup.
