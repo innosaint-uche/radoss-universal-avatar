@@ -1,6 +1,6 @@
 # Universal Avatar release status
 
-Updated: 2026-08-26 (Africa/Lagos)
+Updated: 2026-08-31 (Africa/Lagos)
 
 ## What this project is
 
@@ -28,11 +28,11 @@ claims of completed production features in this baseline.
 
 | Surface | Status | Evidence |
 | --- | --- | --- |
-| Public source for developers | Available | [repository](https://github.com/innosaint-uche/radoss-universal-avatar), tag `v0.2.0-public-source` |
+| Public source for developers | Available | [repository](https://github.com/innosaint-uche/radoss-universal-avatar), current `main` at `8e3407b`; clean source tag `v0.2.0-public-source` |
 | NAAS public source mirror | Available | [repository](https://github.com/innosaint-uche/naavos), tag `v0.1.0-public-source` |
 | Local CLI and adapters | Validated locally | 31 universal tests; central `local-agents` QA passed |
 | Packaged macOS no-code journey | Validated locally | Central Tauri adapter passed isolated setup/persistence journey |
-| Cross-platform unsigned build path | Passed for macOS `.app`/`.dmg`, Windows `.msi`, and Linux `.deb`/`.rpm` | Manual `Desktop build (unsigned)` run `32918990417` on commit `d1e84f6`; AppImage, signing, and OS credential stores remain separate gates |
+| Cross-platform unsigned build path | Passed for macOS `.app`/`.dmg`, Windows `.msi`, and Linux `.deb`/`.rpm` | Manual `Desktop build (unsigned)` run `33342208151` on runtime commit `3ce82c0`; the current `8e3407b` delta is README-only; AppImage, signing, and OS credential stores remain separate gates |
 | Public dashboard | Live controlled-development surface | `https://naavos.radoss.agency` returned HTTP 200 |
 | Branded MCP route | Live and protocol-protected | `https://mcp.naavos.radoss.agency/mcp` with health/OAuth discovery verified |
 | Individual local handoff profile | Implemented as a separate fail-closed gate | `RADOS_RELEASE_CHANNEL=individual_local`; does not claim hosted multi-user or ChatGPT/Claude acceptance |
