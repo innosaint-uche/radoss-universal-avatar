@@ -155,7 +155,8 @@ Hermes is the selected single visible orchestration agent in the product policy.
 - `npm test`: 33/33 tests passed, including the separate `individual_local`
   and hosted `public` release-gate behavior.
 - `npm run public:preflight`: passed; 97 public-package files scanned.
-- Public CI run `33342584684`: passed on current source `f61d85b5`.
+- Public CI run `33342638162`: passed on source `8188617`; subsequent changes
+  in this verification sequence are documentation-only.
 - Desktop build run `33342208151`: macOS, Windows, and Linux unsigned bundles
   passed for runtime commit `3ce82c0`; later commits in this sequence changed
   documentation only.
