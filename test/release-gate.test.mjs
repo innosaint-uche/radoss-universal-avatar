@@ -38,6 +38,17 @@ function completeEvidence() {
   };
 }
 
+function completeIndividualEvidence() {
+  return {
+    evidence_standard: evidenceStandard,
+    release_identity: { source_marker: "individual-source-sha" },
+    local_validation: { tauri: "pass", oauth: "pass" },
+    source_release: { visibility: "public", repository: "verified" },
+    security: { secret_scan: "pass", credential_remediation: "verified" },
+    distribution: { signing: "verified", notarization: "verified", platforms: "verified" }
+  };
+}
+
 test("evidence standard requires facts/recommendations separation and adapter records", () => {
   assert.equal(validateEvidenceStandard({}).valid, false);
   assert.deepEqual(validateEvidenceStandard({}).missing, [
@@ -98,5 +109,35 @@ test("public release requires independently verified source, security, route, an
   assert.ok(result.missing.includes("source_release.visibility"));
   assert.ok(result.missing.includes("security.credential_remediation"));
   assert.ok(result.missing.includes("release_identity.deployment_id"));
+  fs.rmSync(directory, { recursive: true, force: true });
+});
+
+test("individual local handoff does not require hosted multi-user or host acceptance evidence", () => {
+  const directory = fs.mkdtempSync(path.join(os.tmpdir(), "radoss-release-gate-"));
+  const evidencePath = path.join(directory, "evidence.json");
+  fs.writeFileSync(evidencePath, JSON.stringify(completeIndividualEvidence()));
+  const result = evaluateReleaseGate({
+    RADOS_RELEASE_CHANNEL: "individual_local",
+    RADOS_RELEASE_EVIDENCE_FILE: evidencePath
+  });
+  assert.equal(result.status, "verified");
+  assert.equal(result.release_verified, true);
+  assert.equal(result.public_release, false);
+  assert.equal(result.channel, "individual_local");
+  fs.rmSync(directory, { recursive: true, force: true });
+});
+
+test("individual local handoff remains blocked without signed distribution evidence", () => {
+  const directory = fs.mkdtempSync(path.join(os.tmpdir(), "radoss-release-gate-"));
+  const evidencePath = path.join(directory, "evidence.json");
+  const incomplete = completeIndividualEvidence();
+  delete incomplete.distribution.signing;
+  fs.writeFileSync(evidencePath, JSON.stringify(incomplete));
+  const result = evaluateReleaseGate({
+    RADOS_RELEASE_CHANNEL: "individual_local",
+    RADOS_RELEASE_EVIDENCE_FILE: evidencePath
+  });
+  assert.equal(result.status, "blocked");
+  assert.ok(result.missing.includes("distribution.signing"));
   fs.rmSync(directory, { recursive: true, force: true });
 });

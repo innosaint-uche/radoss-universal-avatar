@@ -24,6 +24,22 @@ integration works.
 5. A release claim is fail-closed. Missing or malformed evidence keeps the
    release in local-validation status.
 
+## Release profiles
+
+The gate distinguishes the two product handoffs:
+
+- `individual_local` verifies one person's signed desktop handoff, local
+  OAuth journey, secure distribution, and public source. It does not require
+  multi-user hosted tenant testing or ChatGPT/Claude host acceptance.
+- `public` verifies the shared hosted NAAS service and hosted-client promise.
+  It additionally requires independent live-user tenant isolation, named
+  ChatGPT and Claude acceptance, branded hosted routing, deployment identity,
+  and all other public-service evidence.
+
+An individual handoff must never be described as a verified hosted service.
+Conversely, a hosted service must never use a successful single-user local run
+as evidence of tenant isolation.
+
 ## Machine-enforced manifest layer
 
 Public release manifests must contain:

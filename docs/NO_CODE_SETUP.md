@@ -118,13 +118,17 @@ connected state.
 
 The local canonical ledger is `~/.naavos/avatar.sqlite` with an FTS5 index. Memory capture is approval-gated; ReMe is an optional readable projection and is never the identity or consent authority. A user can explicitly choose the ReMe button to install it into an isolated local Python environment and start its loopback service, then choose `Project approved memory`. Setup never installs, starts, or copies memory silently.
 
-The release label is evidence-gated. Setting `RADOS_RELEASE_CHANNEL=public`
-does not make a build public by itself: `RADOS_RELEASE_EVIDENCE_FILE` must point
-to a release manifest proving remote MCP conformance, OAuth, branded routing,
-tenant isolation, ChatGPT and Claude host acceptance, public source visibility,
-a clean tagged release, deployment identity, security scan and credential
-remediation, signed/notarised artifacts, and every advertised platform.
-Otherwise the wizard remains labelled `Local validation build`.
+The release label is evidence-gated. A signed one-person desktop handoff uses
+`RADOS_RELEASE_CHANNEL=individual_local` and requires local Tauri/OAuth proof,
+public source visibility, security remediation, and signed/notarised artifacts
+for every advertised platform. A shared hosted product uses
+`RADOS_RELEASE_CHANNEL=public` and additionally requires remote MCP
+conformance, OAuth, branded routing, two independent live-user tenant
+isolation, ChatGPT and Claude host acceptance, a clean tagged release,
+deployment identity, and the remaining public-service evidence. Neither value
+alone makes a build releasable; `RADOS_RELEASE_EVIDENCE_FILE` must prove the
+selected profile. Otherwise the wizard remains labelled `Local validation
+build`.
 
 Radoss snapshots use authenticated local encryption (AES-256-GCM) and keep the key at `~/.naavos/.snapshot-key` with mode `0600`. Snapshot contents are not plaintext copies of agent configuration. Legacy schema-1 snapshots created before this hardening must be scrubbed before public release; do not treat their presence as safe backup evidence.
 

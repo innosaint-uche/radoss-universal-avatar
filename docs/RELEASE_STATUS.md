@@ -35,12 +35,15 @@ claims of completed production features in this baseline.
 | Cross-platform unsigned build path | Passed for macOS `.app`/`.dmg`, Windows `.msi`, and Linux `.deb`/`.rpm` | Manual `Desktop build (unsigned)` run `32918990417` on commit `d1e84f6`; AppImage, signing, and OS credential stores remain separate gates |
 | Public dashboard | Live controlled-development surface | `https://naavos.radoss.agency` returned HTTP 200 |
 | Branded MCP route | Live and protocol-protected | `https://mcp.naavos.radoss.agency/mcp` with health/OAuth discovery verified |
+| Individual local handoff profile | Implemented as a separate fail-closed gate | `RADOS_RELEASE_CHANNEL=individual_local`; does not claim hosted multi-user or ChatGPT/Claude acceptance |
 | Customer-ready hosted release | Not yet approved | External evidence below remains open |
 
 ## Why customer release is still gated
 
-These are not code-test failures. They require independent production or
-account-level proof:
+The hosted-release items below are not code-test failures. They require
+independent production or account-level proof. They do not block a genuinely
+local-only individual handoff once that profile's signing and security gates
+are complete:
 
 - two independent live users must demonstrate tenant isolation;
 - ChatGPT and Claude must each be accepted in their own host UI;
