@@ -36,14 +36,15 @@ claims of completed production features in this baseline.
 | Public dashboard | Live controlled-development surface | `https://naavos.radoss.agency` returned HTTP 200 |
 | Branded MCP route | Live and protocol-protected | `https://mcp.naavos.radoss.agency/mcp` with health/OAuth discovery verified |
 | Individual local handoff profile | Implemented as a separate fail-closed gate | `RADOS_RELEASE_CHANNEL=individual_local`; does not claim hosted multi-user or ChatGPT/Claude acceptance |
+| Individual hosted handoff profile | Implemented as a separate fail-closed gate | `RADOS_RELEASE_CHANNEL=individual_hosted`; proves one user's endpoint and owner isolation without claiming shared NAAS tenancy |
 | Customer-ready hosted release | Not yet approved | External evidence below remains open |
 
 ## Why customer release is still gated
 
-The hosted-release items below are not code-test failures. They require
+The shared-hosted release items below are not code-test failures. They require
 independent production or account-level proof. They do not block a genuinely
-local-only individual handoff once that profile's signing and security gates
-are complete:
+local or user-owned single-hosted handoff once that profile's own signing,
+security, endpoint, and owner-isolation gates are complete:
 
 - two independent live users must demonstrate tenant isolation;
 - ChatGPT and Claude must each be accepted in their own host UI;

@@ -17,11 +17,13 @@ Use the signed desktop installer when it is released:
 
 The desktop wizard creates encrypted local backups before mutations and exposes retry, rollback, privacy, disconnect, health, and security controls.
 
-There are two release surfaces. `individual_local` is the personal desktop
-handoff: one user's Avatar, local memory, and local agent adapters. `public` is
-the shared hosted NAAS service and its hosted-client integrations; it requires
-additional multi-user and host-acceptance evidence. A local personal handoff
-must not be described as proof that the shared hosted service is tenant-safe.
+There are three release surfaces. `individual_local` is one user's local
+desktop handoff. `individual_hosted` is one user's online Avatar deployed to
+that user's chosen Cloudflare, VPS, or other supported account. `public` is the
+shared hosted NAAS service and its hosted-client integrations; it requires
+additional multi-user and host-acceptance evidence. These profiles must not be
+interchanged: a local or single-owner handoff is not proof that the shared
+hosted service is tenant-safe.
 
 The product has three deliberately different connection paths:
 

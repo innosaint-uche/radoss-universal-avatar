@@ -49,6 +49,23 @@ function completeIndividualEvidence() {
   };
 }
 
+function completeIndividualHostedEvidence() {
+  return {
+    ...completeIndividualEvidence(),
+    release_identity: {
+      source_marker: "individual-hosted-source-sha",
+      deployment_id: "user-owned-deployment-id"
+    },
+    remote_gateway: {
+      conformance: "pass",
+      oauth: "pass",
+      route: "verified",
+      tenant_model: "single_owner",
+      owner_isolation: "verified"
+    }
+  };
+}
+
 test("evidence standard requires facts/recommendations separation and adapter records", () => {
   assert.equal(validateEvidenceStandard({}).valid, false);
   assert.deepEqual(validateEvidenceStandard({}).missing, [
@@ -139,5 +156,35 @@ test("individual local handoff remains blocked without signed distribution evide
   });
   assert.equal(result.status, "blocked");
   assert.ok(result.missing.includes("distribution.signing"));
+  fs.rmSync(directory, { recursive: true, force: true });
+});
+
+test("individual hosted handoff proves its own endpoint without shared-service claims", () => {
+  const directory = fs.mkdtempSync(path.join(os.tmpdir(), "radoss-release-gate-"));
+  const evidencePath = path.join(directory, "evidence.json");
+  fs.writeFileSync(evidencePath, JSON.stringify(completeIndividualHostedEvidence()));
+  const result = evaluateReleaseGate({
+    RADOS_RELEASE_CHANNEL: "individual_hosted",
+    RADOS_RELEASE_EVIDENCE_FILE: evidencePath
+  });
+  assert.equal(result.status, "verified");
+  assert.equal(result.release_verified, true);
+  assert.equal(result.public_release, false);
+  assert.equal(result.channel, "individual_hosted");
+  fs.rmSync(directory, { recursive: true, force: true });
+});
+
+test("individual hosted handoff requires owner-scoped endpoint evidence", () => {
+  const directory = fs.mkdtempSync(path.join(os.tmpdir(), "radoss-release-gate-"));
+  const evidencePath = path.join(directory, "evidence.json");
+  const incomplete = completeIndividualHostedEvidence();
+  delete incomplete.remote_gateway.owner_isolation;
+  fs.writeFileSync(evidencePath, JSON.stringify(incomplete));
+  const result = evaluateReleaseGate({
+    RADOS_RELEASE_CHANNEL: "individual_hosted",
+    RADOS_RELEASE_EVIDENCE_FILE: evidencePath
+  });
+  assert.equal(result.status, "blocked");
+  assert.ok(result.missing.includes("remote_gateway.owner_isolation"));
   fs.rmSync(directory, { recursive: true, force: true });
 });

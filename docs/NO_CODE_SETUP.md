@@ -121,7 +121,10 @@ The local canonical ledger is `~/.naavos/avatar.sqlite` with an FTS5 index. Memo
 The release label is evidence-gated. A signed one-person desktop handoff uses
 `RADOS_RELEASE_CHANNEL=individual_local` and requires local Tauri/OAuth proof,
 public source visibility, security remediation, and signed/notarised artifacts
-for every advertised platform. A shared hosted product uses
+for every advertised platform. A one-person online handoff uses
+`RADOS_RELEASE_CHANNEL=individual_hosted` and additionally requires proof of
+that user's remote protocol, OAuth, route, single-owner model, owner-scoped
+isolation, and deployment identity. A shared hosted product uses
 `RADOS_RELEASE_CHANNEL=public` and additionally requires remote MCP
 conformance, OAuth, branded routing, two independent live-user tenant
 isolation, ChatGPT and Claude host acceptance, a clean tagged release,
