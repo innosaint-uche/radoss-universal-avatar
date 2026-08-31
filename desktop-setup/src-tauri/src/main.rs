@@ -17,6 +17,18 @@ fn main() {
         .setup(move |app| {
             #[cfg(not(debug_assertions))]
             {
+                // The sample DMG carries this marker so testers can run the
+                // packaged app without touching their normal Avatar or agent
+                // configuration. Production bundles do not contain it.
+                if let (Ok(resource_dir), Ok(home_dir)) = (app.path().resource_dir(), app.path().home_dir()) {
+                    if resource_dir.join("NAAVOS_SAMPLE_MODE").is_file() {
+                        std::env::set_var("RADOS_HOME", home_dir.join("NAAvOS-Sample-Test"));
+                        std::env::set_var("NAAVOS_SAMPLE_MODE", "1");
+                    }
+                }
+            }
+            #[cfg(not(debug_assertions))]
+            {
                 use tauri_plugin_shell::process::CommandEvent;
                 use tauri_plugin_shell::ShellExt;
 
@@ -46,7 +58,7 @@ fn main() {
             Ok(())
         })
         .build(tauri::generate_context!())
-        .expect("error while building Radoss Universal Avatar desktop shell");
+        .expect("error while building NAAvOS Avatar OS desktop shell");
 
     app.run(move |app, event| {
             if let tauri::RunEvent::Exit = event {

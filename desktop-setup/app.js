@@ -177,7 +177,7 @@ function render(data) {
   const hostedGateway = authority.hosted_gateway || {};
   authorityContainer.append(
     row(
-      "NAAS local control plane",
+      "NAAvOS local control plane",
       "Canonical Avatar authority · Hermes visible orchestrator",
       localAuthority.status === "available" ? "Available" : "Unavailable",
       localAuthority.status === "available" ? "good" : "bad",
@@ -199,6 +199,28 @@ function render(data) {
       hostedClass,
     ),
   );
+  const hosting = data.hosting || {};
+  const hostingMode = hosting.provider === "cloudflare" && hosting.mode === "user_hosted"
+    ? "user_hosted_cloudflare"
+    : hosting.provider === "coolify" && hosting.mode === "user_hosted"
+      ? "user_hosted_coolify"
+      : hosting.mode || "local";
+  const hostingModeInput = $("#hosting-mode");
+  if (hostingModeInput && document.activeElement !== hostingModeInput) hostingModeInput.value = hostingMode;
+  const hostingEndpointFields = $("#hosting-endpoint-fields");
+  const hostingEndpointInput = $("#hosting-endpoint");
+  const hostingConsoleInput = $("#hosting-console-url");
+  const onlineChoice = hostingMode !== "local";
+  if (hostingEndpointFields) hostingEndpointFields.hidden = !onlineChoice;
+  if (hostingEndpointInput && document.activeElement !== hostingEndpointInput && hosting.endpoint) hostingEndpointInput.value = hosting.endpoint;
+  const coolifyChoice = hostingMode === "user_hosted_coolify";
+  if (hostingConsoleInput) hostingConsoleInput.hidden = !coolifyChoice;
+  const consoleLabel = document.querySelector('label[for="hosting-console-url"]');
+  if (consoleLabel) consoleLabel.hidden = !coolifyChoice;
+  const hostingDetail = $("#hosting-detail");
+  if (hostingDetail) hostingDetail.textContent = hosting.next_step || "Choose how your online Avatar should be hosted.";
+  const providerButton = $("#hosting-provider-button");
+  if (providerButton) providerButton.hidden = !["user_hosted_cloudflare", "user_hosted_coolify", "managed_naas"].includes(hostingMode);
   if (!privacyDirty)
     $("#privacy-mode").value = data.privacy?.mode || "local_only";
   if (data.avatar?.name) $("#avatar-name").value = data.avatar.name;
@@ -355,6 +377,16 @@ function render(data) {
   syncBusyControls();
 }
 
+function hostingRequestFromUi() {
+  const mode = $("#hosting-mode").value;
+  const endpoint = $("#hosting-endpoint").value.trim() || null;
+  if (mode === "local") return { mode: "local" };
+  if (mode === "existing_endpoint") return { mode, provider: "existing", endpoint };
+  if (mode === "user_hosted_cloudflare") return { mode: "user_hosted", provider: "cloudflare", endpoint };
+  if (mode === "user_hosted_coolify") return { mode: "user_hosted", provider: "coolify", endpoint };
+  return { mode: "managed_naas", provider: "naas", endpoint };
+}
+
 async function refresh() {
   try {
     render(await request("/api/status"));
@@ -486,6 +518,39 @@ $("#privacy-button").addEventListener("click", async () => {
   }
 });
 $("#refresh-button").addEventListener("click", refresh);
+$("#hosting-mode").addEventListener("change", () => {
+  const mode = $("#hosting-mode").value;
+  const online = mode !== "local";
+  $("#hosting-endpoint-fields").hidden = !online;
+  const coolify = mode === "user_hosted_coolify";
+  $("#hosting-console-url").hidden = !coolify;
+  document.querySelector('label[for="hosting-console-url"]').hidden = !coolify;
+  $("#hosting-provider-button").hidden = !["user_hosted_cloudflare", "user_hosted_coolify", "managed_naas"].includes(mode);
+});
+$("#hosting-save-button").addEventListener("click", async () => {
+  try {
+    await initialRefresh;
+    const result = await request("/api/hosting/configure", { method: "POST", body: hostingRequestFromUi() });
+    setAction(`Hosting choice saved. ${result.hosting.next_step}`);
+    await refresh();
+  } catch (error) {
+    setAction(error.message);
+    await refresh();
+  }
+});
+$("#hosting-provider-button").addEventListener("click", async () => {
+  const mode = $("#hosting-mode").value;
+  const provider = mode === "user_hosted_cloudflare" ? "cloudflare" : mode === "user_hosted_coolify" ? "coolify" : "naas";
+  try {
+    const result = await request("/api/hosting/open", {
+      method: "POST",
+      body: { provider, instanceUrl: $("#hosting-console-url").value.trim() || null },
+    });
+    setAction(result.skipped ? "Provider page opening skipped in test mode." : "Provider page opened. Return here after deployment to verify your endpoint.");
+  } catch (error) {
+    setAction(error.message);
+  }
+});
 $("#doctor-button").addEventListener("click", async () => {
   setAction("Running local, provider, and hosted-gateway health checks…");
   try {

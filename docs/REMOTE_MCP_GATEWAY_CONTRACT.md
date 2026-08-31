@@ -20,7 +20,7 @@ HTTPS remote MCP gateway
   └─ serves ChatGPT, Claude and other hosted MCP clients
 ```
 
-NAAS remains the Avatar authority. Supabase may provide durable cloud storage
+NAAvOS remains the Avatar authority. Supabase may provide durable cloud storage
 or synchronisation, but it must not silently become identity, consent or policy
 authority. ReMe remains a readable projection, never the remote source of truth.
 
@@ -59,7 +59,7 @@ documented origin policy.
 `--status-tool` is required when a gateway's read-only health tool is not named
 `avatar_status`; NAAS uses `avatar_get`.
 
-The current NAAS Worker in the NAAS repository's `apps/mcp-server/` directory
+The current NAAvOS Worker in the NAAvOS source mirror's `apps/mcp-server/` directory
 implements this contract. The user-facing branded route is
 `https://mcp.naavos.radoss.agency/mcp`; the Worker URL
 `https://naavos-mcp.innosaint-uche.workers.dev/mcp` remains an implementation

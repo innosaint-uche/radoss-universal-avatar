@@ -10,6 +10,9 @@ import {
   createSetupServer,
   disconnectProvider,
   doctor,
+  configureHosting,
+  getHostingStatus,
+  openHostingProvider,
   projectReMe,
   rollbackBackup,
   retrySetup,
@@ -22,7 +25,7 @@ import { probeMcpProtocol, runMcpConformance } from "../lib/mcp-contract.mjs";
 import { getStoredAccessToken } from "../lib/oauth.mjs";
 
 const program = new Command();
-program.name("radoss").description("Radoss universal control plane").version("0.2.0");
+program.name("naavos").description("NAAvOS Avatar OS universal control plane (legacy command: radoss)").version("0.2.0");
 
 function printServer(name, server) {
   console.log(`${name}: ${server.endpoint}`);
@@ -30,6 +33,29 @@ function printServer(name, server) {
 }
 
 const mcp = program.command("mcp").description("Manage the universal MCP registry and host adapters");
+
+const hosting = program.command("hosting").description("Choose local or user-owned online Avatar hosting");
+
+hosting.command("status")
+  .description("Show the current hosting ownership and endpoint status")
+  .action(() => console.log(JSON.stringify(getHostingStatus(), null, 2)));
+
+hosting.command("set")
+  .requiredOption("--mode <mode>", "local, user_hosted, existing_endpoint, or managed_naas")
+  .option("--provider <provider>", "cloudflare, coolify, existing, or naas")
+  .option("--endpoint <url>", "user-owned HTTPS MCP endpoint")
+  .description("Save a hosting choice without storing provider credentials")
+  .action((options) => {
+    const result = configureHosting({ mode: options.mode, provider: options.provider, endpoint: options.endpoint });
+    console.log(`Hosting choice saved with backup ${result.backup.id}`);
+    console.log(JSON.stringify(result.hosting, null, 2));
+  });
+
+hosting.command("open")
+  .requiredOption("--provider <provider>", "cloudflare, coolify, or naas")
+  .option("--instance-url <url>", "your Coolify instance URL")
+  .description("Open the selected provider in the browser")
+  .action((options) => console.log(JSON.stringify(openHostingProvider({ provider: options.provider, instanceUrl: options.instanceUrl }), null, 2)));
 
 mcp.command("init")
   .description("Register the built-in Hugging Face MCP provider")
@@ -152,7 +178,7 @@ const setup = program.command("setup")
   .option("--no-open", "do not open the browser automatically")
   .action(async (options) => {
     const result = await createSetupServer({ port: Number(options.port), open: !process.argv.includes("--no-open") });
-    console.log(`NAAS setup wizard: ${result.url}`);
+    console.log(`NAAvOS setup wizard: ${result.url}`);
     console.log(`Backups: ${result.backups_dir}`);
   });
 

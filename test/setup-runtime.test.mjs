@@ -115,7 +115,7 @@ test("Hermes can discover the NAAS local orchestrator over stdio MCP", async () 
   });
   try {
     child.stdin.write(`${JSON.stringify({ jsonrpc: "2.0", id: 1, method: "initialize", params: { protocolVersion: "2025-03-26" } })}\n`);
-    assert.equal((await waitFor(1)).result.serverInfo.name, "radoss-naas-avatar");
+    assert.equal((await waitFor(1)).result.serverInfo.name, "naavos-avatar");
     child.stdin.write(`${JSON.stringify({ jsonrpc: "2.0", id: 2, method: "tools/list", params: {} })}\n`);
     const tools = (await waitFor(2)).result.tools;
     assert.ok(tools.some((tool) => tool.name === "avatar_setup"));
@@ -299,8 +299,8 @@ test("local setup server exposes a usable status API", async () => {
   const response = await fetch(`${instance.url}api/status`);
   assert.equal(response.status, 200);
   const body = await response.json();
-  assert.equal(body.product, "Radoss Universal Avatar");
-  assert.equal(body.authority.name, "NAAS");
+  assert.equal(body.product, "NAAvOS Avatar OS");
+  assert.equal(body.authority.name, "NAAvOS");
   assert.equal(body.authority.local_control_plane.status, "available");
   assert.ok(["not_configured", "configured_unverified"].includes(body.authority.hosted_gateway.status));
   assert.equal(body.capabilities.ollama, "excluded");
@@ -430,6 +430,46 @@ test("hosted gateway health is read-only, endpoint-scoped, and token-free", asyn
     if (previous === undefined) delete process.env.RADOS_NAAS_GATEWAY_URL;
     else process.env.RADOS_NAAS_GATEWAY_URL = previous;
   }
+});
+
+test("hosting profile keeps local mode independent from online infrastructure", () => {
+  const local = runtime.configureHosting({ mode: "local" });
+  assert.equal(local.hosting.mode, "local");
+  assert.equal(local.hosting.provider, null);
+  assert.equal(local.hosting.ownership, "user");
+  assert.match(local.backup.reason, /hosting-profile/);
+});
+
+test("user-owned hosting profile stores only a sanitized endpoint and exposes provider handoff", () => {
+  const configured = runtime.configureHosting({
+    mode: "user_hosted",
+    provider: "cloudflare",
+    endpoint: "https://avatar.example/mcp?region=eu#fragment"
+  });
+  assert.equal(configured.hosting.mode, "user_hosted");
+  assert.equal(configured.hosting.provider, "cloudflare");
+  assert.equal(configured.hosting.endpoint, "https://avatar.example/mcp");
+  assert.equal(configured.hosting.status, "endpoint_configured_unverified");
+  assert.equal(configured.hosting.ownership, "user");
+  assert.doesNotMatch(JSON.stringify(configured), /region=eu|fragment/);
+  const opened = runtime.openHostingProvider({ provider: "cloudflare" });
+  assert.equal(opened.skipped, true);
+  runtime.configureHosting({ mode: "local" });
+});
+
+test("hosting endpoint validation rejects insecure public endpoints and URL credentials", () => {
+  assert.throws(
+    () => runtime.configureHosting({ mode: "existing_endpoint", provider: "existing", endpoint: "http://public.example/mcp" }),
+    /HTTPS/i
+  );
+  assert.throws(
+    () => runtime.configureHosting({ mode: "existing_endpoint", provider: "existing", endpoint: "https://user:secret@example.com/mcp" }),
+    /credentials/i
+  );
+  assert.throws(
+    () => runtime.configureHosting({ mode: "existing_endpoint", provider: "existing", endpoint: "https://example.com/mcp?access_token=secret" }),
+    /credentials|tokens/i
+  );
 });
 
 test("local API rejects untrusted browser origins while allowing the setup UI", async () => {

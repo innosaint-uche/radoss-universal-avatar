@@ -1,10 +1,10 @@
-# Universal Avatar release status
+# NAAvOS Avatar OS release status
 
 Updated: 2026-08-31 (Africa/Lagos)
 
 ## What this project is
 
-Radoss Universal Avatar is a user-owned, personal Avatar setup and connection
+NAAvOS Avatar OS is a user-owned, personal Avatar setup and connection
 layer. It is intended to let a non-technical user create an Avatar, choose
 privacy, approve account connections in a browser, and carry the Avatar's
 preferences and governed memory across supported AI hosts.
@@ -16,7 +16,7 @@ The required product path is:
 3. local SQLite + FTS5 canonical memory;
 4. Hermes as the visible layered orchestrator;
 5. guarded adapters for Codex, Antigravity, Hermes, and hosted AI clients;
-6. a branded, authenticated NAAS MCP authority;
+6. a branded, authenticated NAAvOS MCP authority;
 7. explicit privacy, backup, rollback, disconnect, export, and deletion paths;
 8. public source and contributor documentation.
 
@@ -29,14 +29,14 @@ claims of completed production features in this baseline.
 | Surface | Status | Evidence |
 | --- | --- | --- |
 | Public source for developers | Available | [repository](https://github.com/innosaint-uche/radoss-universal-avatar), current `main`; clean source tag `v0.2.0-public-source` |
-| NAAS public source mirror | Available | [repository](https://github.com/innosaint-uche/naavos), tag `v0.1.0-public-source` |
+| NAAvOS public source mirror | Available | [repository](https://github.com/innosaint-uche/naavos), tag `v0.1.0-public-source` |
 | Local CLI and adapters | Validated locally | 31 universal tests; central `local-agents` QA passed |
 | Packaged macOS no-code journey | Validated locally | Central Tauri adapter passed isolated setup/persistence journey |
 | Cross-platform unsigned build path | Passed for macOS `.app`/`.dmg`, Windows `.msi`, and Linux `.deb`/`.rpm` | Manual `Desktop build (unsigned)` run `33342208151` on runtime commit `3ce82c0`; the current `8e3407b` delta is README-only; AppImage, signing, and OS credential stores remain separate gates |
 | Public dashboard | Live controlled-development surface | `https://naavos.radoss.agency` returned HTTP 200 |
 | Branded MCP route | Live and protocol-protected | `https://mcp.naavos.radoss.agency/mcp` with health/OAuth discovery verified |
 | Individual local handoff profile | Implemented as a separate fail-closed gate | `RADOS_RELEASE_CHANNEL=individual_local`; does not claim hosted multi-user or ChatGPT/Claude acceptance |
-| Individual hosted handoff profile | Implemented as a separate fail-closed gate | `RADOS_RELEASE_CHANNEL=individual_hosted`; proves one user's endpoint and owner isolation without claiming shared NAAS tenancy |
+| Individual hosted handoff profile | Implemented as a separate fail-closed gate | `RADOS_RELEASE_CHANNEL=individual_hosted`; proves one user's endpoint and owner isolation without claiming shared NAAvOS tenancy |
 | Customer-ready hosted release | Not yet approved | External evidence below remains open |
 
 ## Why customer release is still gated

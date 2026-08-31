@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Set up your personal Avatar and connect supported AI agents without editing configuration files." />
-    <title>Radoss Universal Avatar setup</title>
+    <title>NAAvOS Avatar OS setup</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/styles.css" />
   </head>
@@ -12,9 +12,9 @@
     <main class="shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow">RADOSS UNIVERSAL AVATAR</p>
+          <p class="eyebrow">NAAVOS AVATAR OS</p>
           <h1>Make your AI know how to work with you.</h1>
-          <p class="lede">Connect your accounts once. Hermes is the visible orchestrator; NAAS runs the guarded setup while your Avatar and memory stay under your control.</p>
+          <p class="lede">Connect your accounts once. Hermes is the visible orchestrator; NAAvOS runs the guarded setup while your Avatar and memory stay under your control.</p>
         </div>
         <div class="status-pill" id="overall-status" role="status" aria-live="polite">Checking setup…</div>
       </header>
@@ -39,8 +39,27 @@
         </article>
         <article class="card authority-card">
           <div class="card-heading"><div><p class="eyebrow">AUTHORITY</p><h2>Where your Avatar lives</h2></div></div>
-          <div id="authority-status" class="rows"><p class="muted">Checking NAAS authority…</p></div>
+          <div id="authority-status" class="rows"><p class="muted">Checking NAAvOS authority…</p></div>
           <p class="microcopy">Local mode needs no online hosting. For ChatGPT or Claude, connect an online endpoint you own or an optional managed endpoint; the wizard shows its evidence separately.</p>
+        </article>
+        <article class="card">
+          <div class="card-heading"><div><p class="eyebrow">ONLINE, OPTIONAL</p><h2>Where should your Avatar live?</h2></div></div>
+          <label class="field-label" for="hosting-mode">Hosting choice</label>
+          <select id="hosting-mode">
+            <option value="local">On this device only</option>
+            <option value="user_hosted_cloudflare">My Cloudflare account</option>
+            <option value="user_hosted_coolify">My VPS / Coolify account</option>
+            <option value="existing_endpoint">An online endpoint I already own</option>
+            <option value="managed_naas">Optional NAAvOS-managed service</option>
+          </select>
+          <div id="hosting-endpoint-fields" hidden>
+            <label class="field-label" for="hosting-endpoint">Online Avatar endpoint</label>
+            <input id="hosting-endpoint" type="url" autocomplete="url" placeholder="https://your-avatar.example/mcp" />
+            <label class="field-label" for="hosting-console-url" hidden>Coolify instance URL</label>
+            <input id="hosting-console-url" type="url" autocomplete="url" placeholder="https://coolify.example.com" hidden />
+          </div>
+          <div class="button-row"><button class="secondary" id="hosting-save-button">Save hosting choice</button><button class="secondary" id="hosting-provider-button" hidden>Continue in provider</button></div>
+          <p id="hosting-detail" class="microcopy">Your Avatar stays on this device; no online service is required.</p>
         </article>
         <article class="card">
           <div class="card-heading"><div><p class="eyebrow">PRIVACY</p><h2>Who controls memory?</h2></div></div>
@@ -73,7 +92,7 @@
           <p class="microcopy">Disconnect removes the provider credential, its Hermes OAuth session, and its adapter entries. Rollback restores files; reconnect may be required.</p>
         </article>
       </section>
-      <footer class="footer"><span id="last-action" role="status" aria-live="polite">Ready.</span><span id="release-status" class="release-status" role="status">Checking release channel…</span><span>NAAS is the authority. Providers are replaceable.</span></footer>
+      <footer class="footer"><span id="last-action" role="status" aria-live="polite">Ready.</span><span id="release-status" class="release-status" role="status">Checking release channel…</span><span>NAAvOS is the authority. Radoss Agency is the maintainer. Providers are replaceable.</span></footer>
     </main>
     <script type="module" src="/app.js"></script>
   </body>

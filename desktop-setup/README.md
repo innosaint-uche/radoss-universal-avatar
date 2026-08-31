@@ -1,4 +1,4 @@
-# Radoss Universal Avatar desktop shell
+# NAAvOS Avatar OS desktop shell
 
 This directory contains the user-facing setup surface and the Tauri v2 shell contract.
 
@@ -8,10 +8,10 @@ This directory contains the user-facing setup surface and the Tauri v2 shell con
 - The current verified service is `node ../bin/radoss.mjs setup --no-open` from this directory.
 - `src-tauri/` is the desktop packaging scaffold. It must start a bundled local setup service before the packaged UI is considered functional.
 - Hermes is configured in the isolated `avatar` profile and verified with `hermes -p avatar`; the user's default profile is not silently replaced.
-- Codex, Antigravity, and the isolated Hermes `avatar` profile receive `radoss_avatar`, a local stdio MCP control surface for guarded NAAS setup and health actions; Hermes remains the visible orchestrator and every mutating tool requires explicit confirmation.
+- Codex, Antigravity, and the isolated Hermes `avatar` profile receive `radoss_avatar`, a local stdio MCP control surface for guarded NAAvOS setup and health actions; Hermes remains the visible orchestrator and every mutating tool requires explicit confirmation.
 - Provider tokens must be stored through an OS credential store. They must not be written into `setup.json`, the registry, or agent configuration files. The macOS package includes a native Security.framework helper; Linux libsecret is used only when installed, and Windows packaging still needs its native credential-store implementation. If no secure store is available, OAuth is blocked before the browser opens.
 - Setup backups are authenticated and encrypted locally; they are not plaintext copies of agent configuration. Legacy backups made before this hardening require migration or removal before distribution.
-- The setup status performs a value-free preflight over supported target files and shows only credential field names and remediation guidance. It does not copy embedded values into NAAS state.
+- The setup status performs a value-free preflight over supported target files and shows only credential field names and remediation guidance. It does not copy embedded values into NAAvOS state.
 - The Tauri shell owns the bundled setup sidecar and terminates it on app exit; the sidecar also watches its parent so a force-terminated shell does not leave a listener on port `49312`.
 - ReMe is an optional, readable, user-owned projection. The desktop surface can install its base package into an isolated Python environment only after an explicit click; it deliberately does not install ReMe's Ollama-bearing core extra. A separate confirmation is required before any already-approved SQLite memory is projected.
 
@@ -37,6 +37,6 @@ The Tauri release is not complete until a signed build proves:
 
 ChatGPT and Claude remain host-managed: the wizard hands the user to ChatGPT Settings → Apps/Connectors or Claude Settings → Integrations for the final account connection. A local adapter file cannot prove those account-level connections.
 
-Hermes is the visible orchestrator selected by product policy. The NAAS setup runtime performs the guarded local mutation underneath it, and the `radoss_avatar` MCP server exposes the same controls to the exact `avatar` profile. A signed packaged user-approval run remains a release gate.
+Hermes is the visible orchestrator selected by product policy. The NAAvOS setup runtime performs the guarded local mutation underneath it, and the `radoss_avatar` MCP server exposes the same controls to the exact `avatar` profile. A signed packaged user-approval run remains a release gate.
 
 ReMe projection is intentionally one-way from approved SQLite records to ReMe Markdown. The canonical ledger is not replaced, and the desktop flow never imports or promotes ReMe content automatically.

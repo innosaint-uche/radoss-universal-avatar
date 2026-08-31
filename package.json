@@ -1,7 +1,7 @@
 {
-  "name": "radoss-universal-cli",
+  "name": "naavos-cli",
   "version": "0.2.0",
-  "description": "Universal user-owned Avatar setup, local MCP orchestration, and OAuth connection tooling",
+  "description": "NAAvOS Avatar OS: universal user-owned Avatar setup, local MCP orchestration, and OAuth connection tooling",
   "license": "MIT",
   "homepage": "https://naavos.radoss.agency",
   "repository": {
@@ -17,6 +17,7 @@
   },
   "type": "module",
   "bin": {
+    "naavos": "bin/radoss.mjs",
     "radoss": "bin/radoss.mjs"
   },
   "files": [
@@ -47,6 +48,7 @@
     "public:preflight": "node scripts/check-public-package.mjs",
     "desktop:sidecar": "node scripts/build-desktop-app.mjs",
     "desktop:package:macos": "node scripts/package-local-macos-bundle.mjs",
+    "desktop:sample:macos": "node scripts/package-sample-macos.mjs",
     "test": "node --test test/*.test.mjs"
   },
   "dependencies": {

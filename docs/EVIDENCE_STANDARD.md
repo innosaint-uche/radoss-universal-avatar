@@ -34,15 +34,15 @@ The gate distinguishes three product handoffs:
 - `individual_hosted` verifies one person's signed desktop handoff plus that
   person's independently hosted online Avatar endpoint. It requires remote
   protocol/OAuth/route proof, a `single_owner` tenant model, owner-scoped
-  isolation, and deployment identity. It does not claim that the shared NAAS
+  isolation, and deployment identity. It does not claim that the shared NAAvOS
   service is multi-tenant safe or that ChatGPT/Claude accepted the connector.
-- `public` verifies the shared hosted NAAS service and hosted-client promise.
+- `public` verifies the shared hosted NAAvOS service and hosted-client promise.
   It additionally requires independent live-user tenant isolation, named
   ChatGPT and Claude acceptance, branded hosted routing, deployment identity,
   and all other public-service evidence.
 
 An individual local handoff must never be described as a hosted service. An
-individual hosted handoff must never be described as the shared NAAS service.
+individual hosted handoff must never be described as the shared NAAvOS service.
 Conversely, a hosted service must never use a successful single-user local run
 as evidence of tenant isolation.
 

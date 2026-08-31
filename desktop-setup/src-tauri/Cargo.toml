@@ -1,7 +1,7 @@
 [package]
 name = "radoss-universal-avatar"
 version = "0.2.0"
-description = "No-code desktop setup shell for the Radoss Universal Avatar"
+description = "No-code desktop setup shell for NAAvOS Avatar OS"
 authors = ["Radoss Agency"]
 edition = "2021"
 build = "build.rs"

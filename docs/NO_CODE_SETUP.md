@@ -1,13 +1,13 @@
-# Radoss Universal Avatar: No-Code Setup
+# NAAvOS Avatar OS: No-Code Setup
 
 ## Product promise
 
-> Connect your accounts once. Radoss configures supported AI agents and shows what is actually verified.
+> Connect your accounts once. NAAvOS configures supported AI agents and shows what is actually verified.
 
 The user should not edit `config.toml`, `mcp.json`, `config.yaml`, `.env` files, bearer tokens, or redirect URLs. When local setup is already configured but account evidence is missing, the primary action becomes `Connect account` and opens only the browser OAuth step; the status remains amber until account evidence is verified. ChatGPT and Claude expose explicit host handoff buttons; Radoss opens the approved host page but does not claim to control the host account UI.
 
 The desktop authority panel makes the boundary visible in plain language: the
-local NAAS control plane is available to the installed wizard, while an online
+local NAAvOS control plane is available to the installed wizard, while an online
 Avatar endpoint is optional and configured separately through
 `RADOS_NAAS_GATEWAY_URL=https://mcp.naavos.radoss.agency/mcp`.
 The Worker URL is retained only as an implementation/test origin. Hosted
@@ -38,6 +38,24 @@ node bin/radoss.mjs setup
 ```
 
 The service binds to `127.0.0.1` and opens the setup interface in the system browser. It does not expose a public network listener, and its API rejects browser requests from untrusted origins before reading or applying a request body.
+
+## Choose where the Avatar lives
+
+The **Where should your Avatar live?** card is an ownership choice, not a
+NAAvOS dependency:
+
+- **On this device only** needs no online account or hosting provider.
+- **My Cloudflare account** or **My VPS / Coolify account** opens the user's
+  provider handoff and records that the deployment belongs to the user.
+- **An online endpoint I already own** accepts only a sanitized HTTPS endpoint;
+  credentials and tokens are never accepted in the URL.
+- **Optional NAAvOS-managed service** is an explicit opt-in convenience path.
+
+The wizard never claims that opening a provider page completed deployment. It
+shows `awaiting_provider_deployment` until the user returns with an endpoint,
+then runs a read-only protocol check. The same ownership choices are available
+to CLI users with `radoss hosting status`, `radoss hosting set`, and
+`radoss hosting open`.
 
 ## One-click flow
 
@@ -151,7 +169,7 @@ The required hosted-client boundary is documented in [`REMOTE_MCP_GATEWAY_CONTRA
 
 Before sharing a diagnostic, snapshot, or public build, the wizard scans supported target configuration files for embedded credential values. It reports only the target, file, field name, and corrective action; it never returns the value. Environment-variable references and OS credential-store references are not treated as embedded credentials.
 
-Hermes is the selected single visible orchestration agent in the product policy. The wizard verifies the exact Hermes Avatar profile with `hermes -p avatar mcp list` and `hermes -p avatar mcp test radoss_avatar`; it does not silently switch or overwrite the user's default Hermes profile. NAAS remains the guarded setup control plane underneath that visible orchestration surface. All mutating local tools require explicit `confirm=true`; the packaged Hermes-driven installation handoff still needs a signed end-to-end user-approval run.
+Hermes is the selected single visible orchestration agent in the product policy. The wizard verifies the exact Hermes Avatar profile with `hermes -p avatar mcp list` and `hermes -p avatar mcp test radoss_avatar`; it does not silently switch or overwrite the user's default Hermes profile. NAAvOS remains the guarded setup control plane underneath that visible orchestration surface. All mutating local tools require explicit `confirm=true`; the packaged Hermes-driven installation handoff still needs a signed end-to-end user-approval run.
 
 ## Verification update — 2026-08-31
 
@@ -186,7 +204,7 @@ Validated locally:
 - Release clarity: the setup status exposes `local_validation` and the rendered desktop footer says `Local validation build · not public distribution`; a future public build must explicitly set its release channel.
 - Remote MCP conformance harness: `radoss mcp conformance` now exercises initialize, initialized notification, session continuity, tools/list, read-only tools/call, structured method errors, credential-shaped output rejection, and hostile-Origin rejection; its fixture also proves the current REST-like shape fails the gate.
 - Local health probe hardening: setup, `radoss doctor`, and the desktop health action now require a valid JSON-RPC initialize result, initialized notification, negotiated session continuity when offered, and valid `tools/list` schemas before reporting protocol health.
-- Authority clarity: the desktop status API and rendered wizard expose NAAS local-control-plane availability separately from hosted-gateway readiness.
+- Authority clarity: the desktop status API and rendered wizard expose NAAvOS local-control-plane availability separately from hosted-gateway readiness.
 - Hosted gateway health: \`Run health check\` performs a read-only MCP protocol probe when \`RADOS_NAAS_GATEWAY_URL\` is configured, displays protocol reachability without claiming OAuth or tenant verification, and rejects non-HTTPS public endpoints.
 - Retired NAAS endpoint probe: `https://api.naavos.io/mcp/v1` could not resolve in the current environment (`DNS resolution failed (ENOTFOUND)`) and must not be configured. The current verified public website is `https://naavos.radoss.agency`; the branded hosted MCP surface is now `https://mcp.naavos.radoss.agency/mcp`, backed by the deployed Worker through the Hostinger/Coolify edge route.
 - Public source status **at the 2026-08-24 snapshot**: the configured NAAS GitHub repository was private at that time; no public source URL was certified in that historical snapshot. The previously documented repository URL was not a valid source authority. This historical statement is superseded by the current public-source evidence recorded in the 2026-08-25 section and the NAAS deployment evidence.

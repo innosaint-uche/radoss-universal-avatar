@@ -1,14 +1,17 @@
-# Radoss Universal Avatar
+# NAAvOS Avatar OS
 
 The no-code desktop setup layer for a personal, user-owned Avatar.
 
-NAAS is the Avatar authority. Hermes is the visible setup and orchestration agent. SQLite + FTS5 is the local canonical memory ledger. ReMe is an optional readable projection; Ollama is deliberately excluded from the public product.
+NAAvOS is the Avatar authority. Radoss Agency is the company and maintainer.
+Hermes is the visible setup and orchestration agent. SQLite + FTS5 is the local
+canonical memory ledger. ReMe is an optional readable projection; Ollama is
+deliberately excluded from the public product.
 
 ## For non-technical users
 
 Use the signed desktop installer when it is released:
 
-1. Install and open **Radoss Universal Avatar**.
+1. Install and open **NAAvOS Avatar OS**.
 2. Name your Avatar.
 3. Choose a privacy mode.
 4. Click **Set up my Avatar**.
@@ -20,7 +23,7 @@ The desktop wizard creates encrypted local backups before mutations and exposes 
 There are three release surfaces. `individual_local` is one user's local
 desktop handoff. `individual_hosted` is one user's online Avatar deployed to
 that user's chosen Cloudflare, VPS, or other supported account. `public` is the
-shared hosted NAAS service and its hosted-client integrations; it requires
+shared hosted NAAvOS service and its hosted-client integrations; it requires
 additional multi-user and host-acceptance evidence. These profiles must not be
 interchanged: a local or single-owner handoff is not proof that the shared
 hosted service is tenant-safe.
@@ -47,7 +50,7 @@ npm login
 npm publish --access public
 ```
 
-The universal CLI is maintained separately from the NAAS source repository.
+The universal CLI is maintained separately from the NAAvOS source mirror.
 Its public source repository is
 [`innosaint-uche/radoss-universal-avatar`](https://github.com/innosaint-uche/radoss-universal-avatar).
 
@@ -73,7 +76,7 @@ Each receives the local `radoss_avatar` MCP server. Hermes remains the visible o
 ## Connection boundary
 
 Local agents use guarded stdio MCP. An online HTTPS Streamable HTTP gateway is
-optional; the current NAAS operator endpoint is
+optional; the current NAAvOS operator endpoint is
 available at `https://mcp.naavos.radoss.agency/mcp` with OAuth, D1-backed
 tenant-owner enforcement, and MCP lifecycle checks. Two-independent-live-user
 tenant acceptance remains a separate public-release gate. The canonical Worker
@@ -81,7 +84,7 @@ origin remains an implementation detail behind the Hostinger/Coolify branded rou
 and Claude account connections remain host-managed; a local configuration file
 cannot prove an online ChatGPT or Claude connection.
 
-The remote boundary and release evidence required for hosted clients are defined in [`docs/REMOTE_MCP_GATEWAY_CONTRACT.md`](docs/REMOTE_MCP_GATEWAY_CONTRACT.md). The local sidecar must never be exposed directly as a public connector.
+The remote boundary and release evidence required for hosted clients are defined in [`docs/REMOTE_MCP_GATEWAY_CONTRACT.md`](docs/REMOTE_MCP_GATEWAY_CONTRACT.md). The local sidecar must never be exposed directly as a public connector. See [`docs/BRAND_AND_COMPATIBILITY.md`](docs/BRAND_AND_COMPATIBILITY.md) for the canonical product name and retained technical aliases.
 
 The verified local Hugging Face flow completes browser OAuth, verifies the provider account, stores credentials through the macOS Keychain helper, and separately verifies Hermes' OAuth-owned cache. It never prints or stores token values in setup state or agent configuration.
 
