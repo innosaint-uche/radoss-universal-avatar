@@ -45,15 +45,15 @@ The following checks were rerun after the isolated sample and branding updates:
 
 | Check | Result | Evidence |
 | --- | --- | --- |
-| Universal unit/integration tests | PASS — 38/38 | `npm test` on `cd5af87` |
-| Public package preflight | PASS — 102 files scanned | `npm run public:preflight` |
+| Universal unit/integration tests | PASS — 38/38 | `npm test` on `1834ac4` |
+| Public package preflight | PASS — 103 files scanned | `npm run public:preflight` |
 | Production dependency audit | PASS — 0 high/critical vulnerabilities | `npm audit --omit=dev --audit-level=high` |
 | npm package shape | PASS — `naavos-cli@0.2.0`, 99 files | `npm pack --dry-run` |
-| Universal source CI | PASS | GitHub Actions run `33348882216`, SHA `30e5ceb` |
-| NAAvOS mirror CI | PASS | GitHub Actions run `33345403980`, SHA `bb5702f` |
-| Central local-agent adapter | PASS | Aggregate adapter `local-agents` |
-| Live NAAvOS route adapter | PASS | Aggregate adapter `naas-public` |
-| Packaged Tauri adapter | PASS | Aggregate adapter `universal-tauri-macos`; isolated state verified |
+| Universal source CI | PASS | GitHub Actions run `33349035800`, SHA `1834ac4` |
+| NAAvOS mirror CI | PASS | GitHub Actions run `33348925712`, SHA `294967a` |
+| Central local-agent adapter | PASS | Aggregate run `2026-08-31T01:56:03Z`, adapter `local-agents` |
+| Live NAAvOS route adapter | PASS | Aggregate run `2026-08-31T01:56:03Z`, adapter `naas-public` |
+| Packaged Tauri adapter | PASS | Aggregate run `2026-08-31T01:56:03Z`, adapter `universal-tauri-macos`; isolated state verified |
 | Sample tester artifact | PASS — isolated DMG and ZIP checksum verified | `NAAvOS-Sample-Test-macOS.dmg` and sendable tester bundle |
 
 These are technical and packaging results. They do not replace the external
