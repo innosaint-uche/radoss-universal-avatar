@@ -72,7 +72,8 @@ Each receives the local `radoss_avatar` MCP server. Hermes remains the visible o
 
 ## Connection boundary
 
-Local agents use guarded stdio MCP. The deployed HTTPS Streamable HTTP gateway is
+Local agents use guarded stdio MCP. An online HTTPS Streamable HTTP gateway is
+optional; the current NAAS operator endpoint is
 available at `https://mcp.naavos.radoss.agency/mcp` with OAuth, D1-backed
 tenant-owner enforcement, and MCP lifecycle checks. Two-independent-live-user
 tenant acceptance remains a separate public-release gate. The canonical Worker

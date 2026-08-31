@@ -7,8 +7,8 @@
 The user should not edit `config.toml`, `mcp.json`, `config.yaml`, `.env` files, bearer tokens, or redirect URLs. When local setup is already configured but account evidence is missing, the primary action becomes `Connect account` and opens only the browser OAuth step; the status remains amber until account evidence is verified. ChatGPT and Claude expose explicit host handoff buttons; Radoss opens the approved host page but does not claim to control the host account UI.
 
 The desktop authority panel makes the boundary visible in plain language: the
-local NAAS control plane is available to the installed wizard, while the hosted
-NAAS gateway is configured separately through
+local NAAS control plane is available to the installed wizard, while an online
+Avatar endpoint is optional and configured separately through
 `RADOS_NAAS_GATEWAY_URL=https://mcp.naavos.radoss.agency/mcp`.
 The Worker URL is retained only as an implementation/test origin. Hosted
 OAuth/MCP evidence exists, while ChatGPT

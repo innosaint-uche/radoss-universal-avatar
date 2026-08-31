@@ -193,8 +193,8 @@ function render(data) {
     hostedGateway.last_check?.status === "protocol_healthy" ? "good" : "warn";
   authorityContainer.append(
     row(
-      "Hosted NAAS gateway",
-      "Required for ChatGPT and Claude",
+      "Online Avatar endpoint",
+      "Optional locally · needed only for online ChatGPT and Claude connections",
       hostedStatus,
       hostedClass,
     ),
