@@ -9,7 +9,7 @@ Playwright, browser binaries, or Rust into this repository.
 
 ## Aggregate run
 
-- Run started: `2026-08-31T01:26:34Z`
+- Run started: `2026-08-31T01:28:26Z`
 - Result: **PASS**
 - `local-agents`: PASS
 - `naas-public`: PASS
@@ -27,7 +27,7 @@ Playwright, browser binaries, or Rust into this repository.
 - Unauthenticated MCP initialize rejected with HTTP 401 and bearer challenge.
 - Tauri startup, sidecar readiness, setup UI, privacy mutation/readback,
   encrypted backup, persistence, and user-owned Cloudflare hosting selection.
-- Tauri sidecar readiness used an ephemeral loopback port (`127.0.0.1:62016` in
+- Tauri sidecar readiness used an ephemeral loopback port (`127.0.0.1:62246` in
   this run), proving the sample does not guess or reuse another installation's
   fixed port.
 - A separate simultaneous-launch check ran the normal and sample bundles at
