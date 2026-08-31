@@ -33,6 +33,9 @@ Playwright, browser binaries, or Rust into this repository.
 - A separate simultaneous-launch check ran the normal and sample bundles at
   the same time on `127.0.0.1:62075` and `127.0.0.1:62097`; both returned HTTP
   200 and the sample used its isolated bundle identifier and state root.
+- The sendable mounted DMG itself was launched at `127.0.0.1:49504`, returned
+  HTTP 200, then stopped its sidecar and detached cleanly. Evidence:
+  `universal-tauri-macos/mounted-dmg-launch.json` in the preserved run.
 
 The preserved redacted evidence is at
 `/Users/radossagency/.radoss-qa/artifacts/run-2026-08-31T01-56-03-050Z/`.
