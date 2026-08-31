@@ -49,7 +49,7 @@ The following checks were rerun after the isolated sample and branding updates:
 | Public package preflight | PASS — 103 files scanned | `npm run public:preflight` |
 | Production dependency audit | PASS — 0 high/critical vulnerabilities | `npm audit --omit=dev --audit-level=high` |
 | npm package shape | PASS — `naavos-cli@0.2.0`, 99 files | `npm pack --dry-run` |
-| Universal source CI | PASS | GitHub Actions run `33349035800`, SHA `1834ac4` |
+| Universal source CI | PASS | GitHub Actions run `33349389110`, SHA `6d996d4` |
 | NAAvOS mirror CI | PASS | GitHub Actions run `33348925712`, SHA `294967a` |
 | Central local-agent adapter | PASS | Aggregate run `2026-08-31T01:56:03Z`, adapter `local-agents` |
 | Live NAAvOS route adapter | PASS | Aggregate run `2026-08-31T01:56:03Z`, adapter `naas-public` |
