@@ -41,8 +41,13 @@ The product has three deliberately different connection paths:
 ## CLI development path
 
 The package is prepared for public npm publication but is not yet published.
-After authenticating the npm account that owns the package name, publish the
-verified tarball with:
+Publication is deliberately manual and approval-gated. Maintainers can use the
+`Publish NAAvOS CLI` GitHub Actions workflow after configuring the npm trusted
+publisher (or the repository's protected `NPM_TOKEN` secret) for the
+`npm-publish` environment. The workflow runs the full prepublish checks before
+publishing provenance-attested package metadata.
+
+For a local, authenticated publication, publish the verified tarball with:
 
 ```bash
 cd /path/to/radoss-universal-avatar
