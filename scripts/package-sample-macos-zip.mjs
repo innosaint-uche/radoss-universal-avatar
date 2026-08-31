@@ -10,20 +10,22 @@ const timestamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d{3}
 const output = process.env.NAAVOS_SAMPLE_ZIP_OUTPUT
   ? path.resolve(process.env.NAAVOS_SAMPLE_ZIP_OUTPUT)
   : path.join(os.homedir(), "Downloads", `NAAvOS-Sample-Test-macOS-${timestamp}.zip`);
+const dmgOutput = process.env.NAAVOS_SAMPLE_DMG_OUTPUT
+  ? path.resolve(process.env.NAAVOS_SAMPLE_DMG_OUTPUT)
+  : path.join(os.homedir(), "Downloads", "NAAvOS-Sample-Test-macOS.dmg");
 const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "naavos-sample-zip-"));
-const tempDmg = path.join(tempRoot, "NAAvOS-Sample-Test-macOS.dmg");
 const packageDir = path.join(tempRoot, "NAAvOS-Sample-Test-macOS");
 
 try {
   execFileSync(process.execPath, [packageScript], {
     cwd: root,
-    env: { ...process.env, NAAVOS_SAMPLE_OUTPUT: tempDmg },
+    env: { ...process.env, NAAVOS_SAMPLE_OUTPUT: dmgOutput },
     stdio: "inherit"
   });
   fs.mkdirSync(packageDir, { recursive: true });
-  fs.copyFileSync(tempDmg, path.join(packageDir, path.basename(tempDmg)));
+  const dmgName = path.basename(dmgOutput);
+  fs.copyFileSync(dmgOutput, path.join(packageDir, dmgName));
   fs.copyFileSync(path.join(root, "docs", "SAMPLE_TESTER.md"), path.join(packageDir, "README.txt"));
-  const dmgName = path.basename(tempDmg);
   const digest = execFileSync("/usr/bin/shasum", ["-a", "256", dmgName], { cwd: packageDir, encoding: "utf8" });
   fs.writeFileSync(path.join(packageDir, "SHA256SUMS.txt"), digest);
   fs.mkdirSync(path.dirname(output), { recursive: true });
