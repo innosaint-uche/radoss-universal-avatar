@@ -30,7 +30,7 @@ claims of completed production features in this baseline.
 | --- | --- | --- |
 | Public source for developers | Available | [repository](https://github.com/innosaint-uche/radoss-universal-avatar), current `main` at the latest verified commit; `v0.2.0-public-source` is the earlier tagged baseline |
 | NAAvOS public source mirror | Available | [repository](https://github.com/innosaint-uche/naavos), tag `v0.1.0-public-source` |
-| Local CLI and adapters | Validated locally | 38/38 Universal tests; central `local-agents` QA passed in aggregate run `2026-08-31T00:39:39Z` |
+| Local CLI and adapters | Validated locally | 38/38 Universal tests; central `local-agents` QA passed in aggregate run `2026-08-31T01:26:34Z` |
 | Packaged macOS no-code journey | Validated locally | Central Tauri adapter passed isolated setup/persistence journey |
 | Cross-platform unsigned build path | Previously passed for macOS `.app`/`.dmg`, Windows `.msi`, and Linux `.deb`/`.rpm` | Manual `Desktop build (unsigned)` run `33342208151`; this is not signing, notarisation, or current-platform acceptance evidence |
 | Public dashboard | Live controlled-development surface | `https://naavos.radoss.agency` returned HTTP 200 |
@@ -45,11 +45,11 @@ The following checks were rerun after the isolated sample and branding updates:
 
 | Check | Result | Evidence |
 | --- | --- | --- |
-| Universal unit/integration tests | PASS — 38/38 | `npm test` on `f7fb229` |
+| Universal unit/integration tests | PASS — 38/38 | `npm test` on `cd5af87` |
 | Public package preflight | PASS — 102 files scanned | `npm run public:preflight` |
 | Production dependency audit | PASS — 0 high/critical vulnerabilities | `npm audit --omit=dev --audit-level=high` |
 | npm package shape | PASS — `naavos-cli@0.2.0`, 98 files | `npm pack --dry-run` |
-| Universal source CI | PASS | GitHub Actions run `33345546633`, SHA `f7fb229` |
+| Universal source CI | PASS | GitHub Actions run `33345546633`, SHA `f7fb229`; subsequent isolation fix locally verified and pending CI completion |
 | NAAvOS mirror CI | PASS | GitHub Actions run `33345403980`, SHA `bb5702f` |
 | Central local-agent adapter | PASS | Aggregate adapter `local-agents` |
 | Live NAAvOS route adapter | PASS | Aggregate adapter `naas-public` |
