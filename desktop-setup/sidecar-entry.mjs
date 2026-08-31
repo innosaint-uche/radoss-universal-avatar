@@ -1,3 +1,4 @@
+import fs from "node:fs";
 import { createSetupServer } from "../lib/setup-runtime.mjs";
 import { runMcpStdio } from "../lib/mcp-orchestrator.mjs";
 import indexHtml from "./index.html";
@@ -25,6 +26,9 @@ const instance = await createSetupServer({
   }
 });
 process.stdout.write(`radoss-setup-service ${instance.url}\n`);
+if (process.env.RADOS_SETUP_PORT_FILE) {
+  fs.writeFileSync(process.env.RADOS_SETUP_PORT_FILE, `${instance.url}\n`, { mode: 0o600 });
+}
 
 let shuttingDown = false;
 let parentMonitor;

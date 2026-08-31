@@ -2,11 +2,10 @@ const $ = (selector) => document.querySelector(selector);
 const statusEl = $("#overall-status");
 const lastActionEl = $("#last-action");
 const releaseStatusEl = $("#release-status");
-const API_BASE =
-  window.__TAURI_INTERNALS__ ||
-  ["tauri:", "asset:"].includes(window.location.protocol)
-    ? "http://127.0.0.1:49312"
-    : "";
+// The packaged Tauri shell starts the sidecar on an ephemeral loopback port
+// and navigates here only after that port is ready. Never guess a fixed port:
+// doing so could read another local NAAvOS instance during startup.
+const API_BASE = ["tauri:", "asset:"].includes(window.location.protocol) ? null : "";
 let primaryAction = "setup";
 let busy = false;
 let initialRefresh = Promise.resolve();
@@ -40,6 +39,7 @@ function setAction(message) {
 }
 
 async function request(url, options = {}) {
+  if (API_BASE === null) throw new Error("NAAvOS setup service is starting");
   const init = {
     ...options,
     headers: {

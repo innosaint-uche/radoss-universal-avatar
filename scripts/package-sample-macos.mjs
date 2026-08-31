@@ -26,6 +26,10 @@ const mountDir = fs.mkdtempSync(path.join(os.tmpdir(), "naavos-sample-mount-"));
 let mounted = false;
 try {
   fs.cpSync(builtApp, sampleApp, { recursive: true });
+  const samplePlist = path.join(sampleApp, "Contents", "Info.plist");
+  run("/usr/bin/plutil", ["-replace", "CFBundleIdentifier", "-string", "com.radoss.naavos.sample", samplePlist]);
+  run("/usr/bin/plutil", ["-replace", "CFBundleName", "-string", "NAAvOS Avatar OS Sample", samplePlist]);
+  run("/usr/bin/plutil", ["-replace", "CFBundleDisplayName", "-string", "NAAvOS Avatar OS Sample", samplePlist]);
   fs.writeFileSync(path.join(sampleApp, "Contents", "Resources", "NAAVOS_SAMPLE_MODE"), "isolated\n", { mode: 0o644 });
   fs.copyFileSync(path.join(root, "docs", "SAMPLE_TESTER.md"), readme);
   fs.mkdirSync(path.dirname(output), { recursive: true });
@@ -38,6 +42,13 @@ try {
   const mountedApp = path.join(mountDir, "NAAvOS Avatar OS Sample.app");
   run("/usr/bin/codesign", ["--verify", "--deep", "--strict", mountedApp]);
   fs.accessSync(path.join(mountedApp, "Contents", "Resources", "NAAVOS_SAMPLE_MODE"));
+  const mountedIdentifier = execFileSync("/usr/bin/plutil", [
+    "-extract", "CFBundleIdentifier", "raw", "-o", "-",
+    path.join(mountedApp, "Contents", "Info.plist")
+  ], { encoding: "utf8" }).trim();
+  if (mountedIdentifier !== "com.radoss.naavos.sample") {
+    throw new Error(`Sample bundle identifier is not isolated: ${mountedIdentifier}`);
+  }
   fs.copyFileSync(sampleDmg, output);
   console.log(`Verified isolated NAAvOS sample DMG: ${output}`);
 } finally {

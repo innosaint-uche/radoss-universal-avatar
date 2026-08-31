@@ -28,7 +28,7 @@ claims of completed production features in this baseline.
 
 | Surface | Status | Evidence |
 | --- | --- | --- |
-| Public source for developers | Available | [repository](https://github.com/innosaint-uche/radoss-universal-avatar), current `main` at `f7fb229`; `v0.2.0-public-source` is the earlier tagged baseline |
+| Public source for developers | Available | [repository](https://github.com/innosaint-uche/radoss-universal-avatar), current `main` at the latest verified commit; `v0.2.0-public-source` is the earlier tagged baseline |
 | NAAvOS public source mirror | Available | [repository](https://github.com/innosaint-uche/naavos), tag `v0.1.0-public-source` |
 | Local CLI and adapters | Validated locally | 38/38 Universal tests; central `local-agents` QA passed in aggregate run `2026-08-31T00:39:39Z` |
 | Packaged macOS no-code journey | Validated locally | Central Tauri adapter passed isolated setup/persistence journey |
@@ -46,7 +46,7 @@ The following checks were rerun after the isolated sample and branding updates:
 | Check | Result | Evidence |
 | --- | --- | --- |
 | Universal unit/integration tests | PASS — 38/38 | `npm test` on `f7fb229` |
-| Public package preflight | PASS — 101 files scanned | `npm run public:preflight` |
+| Public package preflight | PASS — 102 files scanned | `npm run public:preflight` |
 | Production dependency audit | PASS — 0 high/critical vulnerabilities | `npm audit --omit=dev --audit-level=high` |
 | npm package shape | PASS — `naavos-cli@0.2.0`, 98 files | `npm pack --dry-run` |
 | Universal source CI | PASS | GitHub Actions run `33345546633`, SHA `f7fb229` |

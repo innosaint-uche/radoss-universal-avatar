@@ -3,6 +3,9 @@
 This DMG is an isolated customer-test build. It is safe to run alongside a
 personal NAAvOS installation.
 
+The packaged shell uses an ephemeral loopback port for its private setup
+service, so starting the sample does not compete with another NAAvOS instance.
+
 - App state, backups, memory, and setup logs go to
   `~/NAAvOS-Sample-Test/.naavos/`; generated adapter files are kept under
   `~/NAAvOS-Sample-Test/.codex/`, `~/NAAvOS-Sample-Test/.gemini/`, and

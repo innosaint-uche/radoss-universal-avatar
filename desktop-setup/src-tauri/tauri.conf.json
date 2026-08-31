@@ -4,8 +4,8 @@
   "version": "0.2.0",
   "identifier": "com.radoss.universal-avatar",
   "build": {
-    "beforeDevCommand": "node ../bin/radoss.mjs setup --no-open --port 49312",
-    "beforeBuildCommand": "node ../scripts/build-desktop-app.mjs",
+    "beforeDevCommand": "node bin/radoss.mjs setup --no-open --port 49312",
+    "beforeBuildCommand": "node scripts/build-desktop-app.mjs",
     "devUrl": "http://127.0.0.1:49312/",
     "frontendDist": "../.build/frontend"
   },

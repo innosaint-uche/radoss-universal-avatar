@@ -11,7 +11,7 @@
         {
           "name": "binaries/radoss-setup",
           "sidecar": true,
-          "args": ["--port", { "validator": "49312" }]
+          "args": ["--port", { "validator": "0" }]
         }
       ]
     }
