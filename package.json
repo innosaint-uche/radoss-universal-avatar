@@ -49,6 +49,7 @@
     "desktop:sidecar": "node scripts/build-desktop-app.mjs",
     "desktop:package:macos": "node scripts/package-local-macos-bundle.mjs",
     "desktop:sample:macos": "node scripts/package-sample-macos.mjs",
+    "desktop:sample:macos:zip": "node scripts/package-sample-macos-zip.mjs",
     "test": "node --test test/*.test.mjs"
   },
   "dependencies": {

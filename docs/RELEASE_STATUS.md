@@ -68,7 +68,10 @@ security, endpoint, and owner-isolation gates are complete:
 
 - two independent live users must demonstrate tenant isolation;
 - ChatGPT and Claude must each be accepted in their own host UI;
-- pre-existing embedded Antigravity credentials must be rotated or removed;
+- the operator's pre-existing embedded Antigravity credentials remain a
+  separately tracked personal-environment warning; they are not part of the
+  distributable package and must not be copied, exposed, or modified by the
+  product;
 - production signing, Apple notarisation, and Windows/Linux package evidence
   must be recorded.
 

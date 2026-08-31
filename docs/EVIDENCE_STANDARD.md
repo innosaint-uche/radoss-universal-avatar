@@ -73,10 +73,19 @@ Public release manifests must contain:
 The release gate rejects a public manifest when the standard block or any
 adapter record is missing. It also requires independently verified remote
 gateway routing, tenant isolation, host acceptance, public source visibility
-with a clean tagged release, deployment identity, security scanning and
-credential remediation, and signed/notarised artifacts for every advertised
-platform. A record can honestly be `pending` or `blocked`; that status is
-useful evidence, but it cannot be used to claim the adapter is verified.
+with a clean tagged release, deployment identity, security scanning, a
+distribution security review, and signed/notarised artifacts for every
+advertised platform. A record can honestly be `pending` or `blocked`; that
+status is useful evidence, but it cannot be used to claim the adapter is
+verified.
+
+Personal-environment warnings are recorded separately from distribution
+evidence. A credential already present in an operator's private agent
+configuration is not copied into the product, is never read as release
+evidence, and must not force changes to that operator's machine before an
+isolated sample or public source release can be evaluated. It remains an
+operational warning for that personal environment and for any handoff that
+explicitly uses that environment.
 
 ## Reporting format
 

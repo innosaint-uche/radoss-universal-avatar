@@ -390,7 +390,7 @@ test("public release labels require complete external evidence", async () => {
       },
       host_acceptance: { chatgpt: "accepted", claude: "accepted" },
       source_release: { visibility: "public", repository: "verified", clean_tag: "verified" },
-      security: { secret_scan: "pass", credential_remediation: "verified" },
+      security: { secret_scan: "pass", distribution_review: "verified" },
       distribution: { signing: "verified", notarization: "verified", platforms: "verified" }
     })}\n`);
     process.env.RADOS_RELEASE_EVIDENCE_FILE = evidencePath;

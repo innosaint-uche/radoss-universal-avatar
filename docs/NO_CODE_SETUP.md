@@ -138,7 +138,7 @@ The local canonical ledger is `~/.naavos/avatar.sqlite` with an FTS5 index. Memo
 
 The release label is evidence-gated. A signed one-person desktop handoff uses
 `RADOS_RELEASE_CHANNEL=individual_local` and requires local Tauri/OAuth proof,
-public source visibility, security remediation, and signed/notarised artifacts
+public source visibility, a distribution security review, and signed/notarised artifacts
 for every advertised platform. A one-person online handoff uses
 `RADOS_RELEASE_CHANNEL=individual_hosted` and additionally requires proof of
 that user's remote protocol, OAuth, route, single-owner model, owner-scoped
@@ -149,7 +149,10 @@ isolation, ChatGPT and Claude host acceptance, a clean tagged release,
 deployment identity, and the remaining public-service evidence. Neither value
 alone makes a build releasable; `RADOS_RELEASE_EVIDENCE_FILE` must prove the
 selected profile. Otherwise the wizard remains labelled `Local validation
-build`.
+build`. Warnings found in the operator's existing personal agent configuration
+are shown as personal-environment warnings; the wizard does not read, copy,
+rotate, or delete those credentials as part of an isolated sample or source
+release.
 
 Radoss snapshots use authenticated local encryption (AES-256-GCM) and keep the key at `~/.naavos/.snapshot-key` with mode `0600`. Snapshot contents are not plaintext copies of agent configuration. Legacy schema-1 snapshots created before this hardening must be scrubbed before public release; do not treat their presence as safe backup evidence.
 

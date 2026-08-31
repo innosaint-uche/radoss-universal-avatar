@@ -3,6 +3,10 @@
 This DMG is an isolated customer-test build. It is safe to run alongside a
 personal NAAvOS installation.
 
+Maintainers can regenerate the DMG with `npm run desktop:sample:macos` and the
+sendable ZIP with `npm run desktop:sample:macos:zip`. The ZIP contains the DMG,
+this guide, and a SHA-256 checksum file.
+
 The packaged shell uses an ephemeral loopback port for its private setup
 service, so starting the sample does not compete with another NAAvOS instance.
 

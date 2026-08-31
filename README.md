@@ -18,7 +18,7 @@ Use the signed desktop installer when it is released:
 5. Approve the account connection in the browser. Do not copy a code or token.
 6. Reopen or refresh the supported AI host when the wizard confirms the local adapter.
 
-The desktop wizard creates encrypted local backups before mutations and exposes retry, rollback, privacy, disconnect, health, and security controls.
+The desktop wizard creates encrypted local backups before mutations and exposes retry, rollback, privacy, disconnect, health, and security controls. Personal-agent credential warnings remain local operational warnings; the product does not copy or mutate them during an isolated sample or public source release.
 
 There are three release surfaces. `individual_local` is one user's local
 desktop handoff. `individual_hosted` is one user's online Avatar deployed to

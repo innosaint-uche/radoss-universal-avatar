@@ -38,8 +38,10 @@ Playwright, browser binaries, or Rust into this repository.
 
 The local-agent adapter reported two pre-existing embedded credential fields in
 the personal Antigravity configuration. Values were not read, printed, or
-modified. They must be rotated or removed by the account owner before any
-public distribution claim.
+modified, and the isolated sample does not use those paths. This is a
+personal-environment warning, not distribution evidence; it must be addressed
+before using that specific personal environment for an operational handoff,
+but it does not block the isolated sample or public source evaluation.
 
 This run does not prove two independent live production tenants, ChatGPT or
 Claude host acceptance, production signing/notarisation, or cross-platform

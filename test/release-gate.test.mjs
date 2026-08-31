@@ -33,7 +33,7 @@ function completeEvidence() {
     },
     host_acceptance: { chatgpt: "accepted", claude: "accepted" },
     source_release: { visibility: "public", repository: "verified", clean_tag: "verified" },
-    security: { secret_scan: "pass", credential_remediation: "verified" },
+    security: { secret_scan: "pass", distribution_review: "verified" },
     distribution: { signing: "verified", notarization: "verified", platforms: "verified" }
   };
 }
@@ -44,7 +44,7 @@ function completeIndividualEvidence() {
     release_identity: { source_marker: "individual-source-sha" },
     local_validation: { tauri: "pass", oauth: "pass" },
     source_release: { visibility: "public", repository: "verified" },
-    security: { secret_scan: "pass", credential_remediation: "verified" },
+    security: { secret_scan: "pass", distribution_review: "verified" },
     distribution: { signing: "verified", notarization: "verified", platforms: "verified" }
   };
 }
@@ -124,7 +124,7 @@ test("public release requires independently verified source, security, route, an
   assert.equal(result.status, "blocked");
   assert.ok(result.missing.includes("remote_gateway.branded_route"));
   assert.ok(result.missing.includes("source_release.visibility"));
-  assert.ok(result.missing.includes("security.credential_remediation"));
+  assert.ok(result.missing.includes("security.distribution_review"));
   assert.ok(result.missing.includes("release_identity.deployment_id"));
   fs.rmSync(directory, { recursive: true, force: true });
 });
