@@ -2,6 +2,10 @@
 
 The no-code desktop setup layer for a personal, user-owned Avatar.
 
+For background semantic memory and profile editing through a connected agent,
+see [MemU setup and privacy controls](docs/MEMU.md). The setup window is optional;
+MemU uses an explicitly configured embedding provider or Cloud key.
+
 NAAvOS is the Avatar authority. Radoss Agency is the company and maintainer.
 Hermes is the visible setup and orchestration agent. SQLite + FTS5 is the local
 canonical memory ledger. ReMe is an optional readable projection; Ollama is

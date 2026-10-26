@@ -27,13 +27,25 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Setup optional MemU integration Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Install the pinned real MemU SDK for integration tests
+        run: python -m pip install -r scripts/requirements-memu.txt
+
       - name: Run tests
+        env:
+          NAAVOS_MEMU_TEST_PYTHON: python
         run: npm test
 
       - name: Install browser for the local Avatar journey
         run: npx playwright install --with-deps chromium
 
       - name: Verify local Avatar browser journey
+        env:
+          NAAVOS_MEMU_BROWSER_PYTHON: python
         run: npx playwright test
 
       - name: Upload browser evidence
