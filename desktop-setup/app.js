@@ -724,9 +724,9 @@ $("#memory-save-button").addEventListener("click", async () => {
   if (busy) return;
   setBusy(true);
   try {
-    await request("/api/memory/ledger/save", { method: "POST", body: { content: $("#memory-note").value, confirm: true } });
+    const result = await request("/api/memory/ledger/save", { method: "POST", body: { content: $("#memory-note").value, confirm: true } });
     $("#memory-note").value = "";
-    setAction("Approved memory saved locally.");
+    setAction(result.memu?.status === "pending" ? "Approved memory saved locally. The connected search service update is pending." : "Approved memory saved locally.");
     await refresh();
   } catch (error) { setAction(safeMessage(error.message)); }
   finally { setBusy(false); }
@@ -736,16 +736,18 @@ $("#memory-search-button").addEventListener("click", async () => {
   if (busy) return;
   setBusy(true);
   try {
-    const { items } = await request("/api/memory/ledger/search", { method: "POST", body: { query: $("#memory-query").value } });
+    const result = await request("/api/memory/ledger/search", { method: "POST", body: { query: $("#memory-query").value } });
+    const { items } = result;
+    setAction(result.degraded ? "Semantic search is unavailable. Showing keyword matches from local memory." : result.engine === "memu" ? "Semantic memory search complete." : "Local memory search complete.");
     const container = $("#memory-results");
     container.replaceChildren();
     if (!items.length) container.textContent = "No approved memories found.";
     for (const item of items) container.append(row(item.content, "Approved local memory", "Saved", "", { label: "Delete", handler: async () => {
-      if (busy || !window.confirm("Delete this note from the active ledger? Earlier backups may retain it.")) return;
+      if (busy || !window.confirm("Delete this note from active memory and its configured search service? Earlier backups may retain it.")) return;
       setBusy(true);
       try {
-        await request("/api/memory/ledger/delete", { method: "POST", body: { id: item.id, confirm: true } });
-        setAction("Memory deleted from the active ledger.");
+        const deletion = await request("/api/memory/ledger/delete", { method: "POST", body: { id: item.id, confirm: true } });
+        setAction(deletion.memu?.status === "pending" ? "Memory deleted locally. Deletion from the connected search service is pending; retry memory sync when it is available." : "Memory deleted from active memory.");
         container.replaceChildren();
         await refresh();
       } catch (error) { setAction(safeMessage(error.message)); }

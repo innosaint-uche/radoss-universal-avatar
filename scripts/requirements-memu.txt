@@ -1,0 +1,3 @@
+# Optional: install into the Python environment selected for the MemU bridge.
+memu-cli==0.11.0b3
+httpx[socks]==0.28.1

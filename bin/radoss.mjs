@@ -23,6 +23,7 @@ import {
 } from "../lib/setup-runtime.mjs";
 import { probeMcpProtocol, runMcpConformance } from "../lib/mcp-contract.mjs";
 import { getStoredAccessToken } from "../lib/oauth.mjs";
+import { installMemu, configureMemu, syncMemu, disableMemu, memuStatus, searchApprovedMemory } from "../lib/memu-memory.mjs";
 
 const program = new Command();
 program.name("naavos").description("NAAvOS Avatar OS universal control plane (legacy command: radoss)").version("0.2.0");
@@ -235,7 +236,28 @@ setup.command("disconnect")
   .description("Back up, remove provider entries, and disconnect supported agents")
   .action(async (provider) => console.log(JSON.stringify(await disconnectProvider(provider), null, 2)));
 
-const memory = setup.command("memory").description("Manage the optional user-owned ReMe projection");
+const memory = setup.command("memory").description("Manage user-owned memory and optional semantic retrieval");
+
+const memu = memory.command("memu").description("Use MemU over explicitly approved SQLite notes; no automatic session capture");
+memu.command("install").option("--python <path>", "Python 3.11+ executable").requiredOption("--confirm").action(async options => console.log(JSON.stringify(await installMemu(options), null, 2)));
+memu.command("status").action(() => console.log(JSON.stringify(memuStatus(), null, 2)));
+memu.command("configure")
+  .option("--mode <mode>", "local index or MemU Cloud", "local")
+  .option("--python <path>", "Python 3.11+ containing memu-cli==0.11.0b3")
+  .option("--provider <name>", "embedding provider for local mode")
+  .option("--model <name>", "embedding model")
+  .option("--base-url <url>", "embedding endpoint, HTTPS or loopback HTTP")
+  .requiredOption("--api-key-env <name>", "credential environment-variable name; never its value")
+  .requiredOption("--allow-network", "consent to sending approved notes and queries to the embedding provider or MemU Cloud")
+  .requiredOption("--confirm", "approve projection of currently and subsequently approved notes")
+  .action(async options => {
+    const config = { mode: options.mode, api_key_env: options.apiKeyEnv, allow_network: options.allowNetwork };
+    for (const [option, key] of [["python", "python"], ["provider", "provider"], ["model", "model"], ["baseUrl", "base_url"]]) if (options[option] !== undefined) config[key] = options[option];
+    console.log(JSON.stringify(await configureMemu(config, { confirm: options.confirm }), null, 2));
+  });
+memu.command("sync").requiredOption("--confirm").action(async options => console.log(JSON.stringify(await syncMemu(options), null, 2)));
+memu.command("disable").requiredOption("--confirm").action(async options => console.log(JSON.stringify(await disableMemu(options), null, 2)));
+memory.command("search").argument("<query>").action(async query => console.log(JSON.stringify(await searchApprovedMemory({ query }), null, 2)));
 
 memory.command("status")
   .description("Show canonical memory and ReMe projection status")
