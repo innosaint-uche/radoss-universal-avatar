@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(here, '../..');
-const browsers = process.platform === 'darwin' ? ['webkit', 'chromium'] : ['chromium'];
+const browsers = process.platform === 'darwin' ? ['chromium', 'webkit'] : ['chromium'];
 export default defineConfig({
   workers: 1,
   retries: 0,
