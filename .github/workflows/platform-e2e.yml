@@ -1,0 +1,70 @@
+name: Mac first and Windows E2E evidence
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/platform-e2e.yml'
+      - 'test/platform/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  macos:
+    name: macOS native runtime and live distribution
+    runs-on: macos-15
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '26'
+          cache: npm
+      - run: npm ci
+      - name: Install recording browsers
+        run: npx playwright install chromium webkit
+      - name: Build native packaged runtime
+        run: npm run desktop:sidecar
+      - name: Verify native packaged API and stdio MCP
+        run: node scripts/verify-packaged-sidecar.mjs
+      - name: Record live and packaged browser journeys
+        run: npx playwright test --config test/platform/playwright.config.mjs
+      - name: Upload Mac evidence even when a gate fails
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: naavos-macos-e2e
+          path: e2e-evidence/
+          if-no-files-found: warn
+          retention-days: 14
+  windows:
+    name: Windows native runtime and live distribution
+    needs: macos
+    if: always()
+    runs-on: windows-2022
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '26'
+          cache: npm
+      - run: npm ci
+      - name: Install recording browser
+        run: npx playwright install chromium
+      - name: Build native packaged runtime
+        run: npm run desktop:sidecar
+      - name: Verify native packaged API and stdio MCP
+        run: node scripts/verify-packaged-sidecar.mjs
+      - name: Record live and packaged browser journeys
+        run: npx playwright test --config test/platform/playwright.config.mjs
+      - name: Upload Windows evidence even when a gate fails
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: naavos-windows-e2e
+          path: e2e-evidence/
+          if-no-files-found: warn
+          retention-days: 14
