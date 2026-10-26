@@ -77,12 +77,13 @@ test.describe('Live distribution journey', () => {
       expect(result.gatekeeper.status, 'Gatekeeper acceptance').toBe(0);
       expect(result.notarisation.status, 'Stapled notarisation ticket').toBe(0);
     } else if (process.platform === 'win32') {
-      const result = run('powershell.exe', ['-NoProfile', '-NonInteractive', '-Command', '$s=Get-AuthenticodeSignature -LiteralPath $env:NAAVOS_E2E_INSTALLER; $s | Select-Object Status,StatusMessage,Path,@{Name="Signer";Expression={$_.SignerCertificate.Subject}} | ConvertTo-Json'], {
+      const result = run('pwsh.exe', ['-NoLogo', '-NoProfile', '-NonInteractive', '-Command', "$ErrorActionPreference='Stop'; Import-Module Microsoft.PowerShell.Security -ErrorAction Stop; $s=Get-AuthenticodeSignature -LiteralPath $env:NAAVOS_E2E_INSTALLER; [pscustomobject]@{Status=[string]$s.Status;StatusMessage=$s.StatusMessage;Path=$s.Path;Signer=$s.SignerCertificate.Subject} | ConvertTo-Json"], {
         env: { ...process.env, NAAVOS_E2E_INSTALLER: downloaded.file },
       });
       fs.writeFileSync(path.join(evidence, 'native-distribution-gate.json'), JSON.stringify(result, null, 2));
       expect(result.status).toBe(0);
-      expect(JSON.parse(result.stdout).Status, 'Authenticode publisher verification').toBe(0);
+      expect(result.stdout.trim(), 'Signature command must emit evidence').not.toBe('');
+      expect(JSON.parse(result.stdout).Status, 'Authenticode publisher verification').toBe('Valid');
     } else test.skip(true, 'Native distribution gate requires macOS or Windows');
   });
 });
