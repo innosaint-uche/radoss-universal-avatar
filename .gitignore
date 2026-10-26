@@ -1,0 +1,9 @@
+node_modules/
+.build/
+desktop-setup/.build/
+desktop-setup/src-tauri/binaries/
+desktop-setup/src-tauri/target/
+playwright-report/
+test-results/
+.env*
+.dev.vars*

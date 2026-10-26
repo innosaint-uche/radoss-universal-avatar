@@ -17,6 +17,20 @@ const memory = await import("../lib/avatar-memory.mjs");
 const reme = await import("../lib/reme.mjs");
 const oauth = await import("../lib/oauth.mjs");
 
+// Unit/integration fixtures must not depend on an external provider being available.
+// Live OAuth and named-host acceptance remain separate release checks.
+const realFetch = globalThis.fetch;
+globalThis.fetch = async (endpoint, options = {}) => {
+  if (!String(endpoint).startsWith("https://huggingface.co/")) return realFetch(endpoint, options);
+  const message = JSON.parse(options.body || "{}");
+  const headers = { "content-type": "application/json", "mcp-session-id": "fixture-session" };
+  if (message.method === "notifications/initialized") return new Response(null, { status: 202, headers });
+  const result = message.method === "initialize"
+    ? { protocolVersion: "2025-06-18", serverInfo: { name: "fixture", version: "1" } }
+    : { tools: [{ name: "avatar_status", inputSchema: { type: "object" } }] };
+  return new Response(JSON.stringify({ jsonrpc: "2.0", id: message.id, result }), { headers });
+};
+
 function seedAgentFiles() {
   fs.mkdirSync(path.join(home, ".codex"), { recursive: true });
   fs.mkdirSync(path.join(home, ".gemini", "config"), { recursive: true });
@@ -503,5 +517,6 @@ test("local API rejects untrusted browser origins while allowing the setup UI", 
 });
 
 test.after(() => {
+  globalThis.fetch = realFetch;
   fs.rmSync(home, { recursive: true, force: true });
 });

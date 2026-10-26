@@ -60,6 +60,7 @@
     "node": ">=22.5.0"
   },
   "devDependencies": {
+    "@playwright/test": "1.64.1",
     "esbuild": "^0.28.2"
   }
 }
