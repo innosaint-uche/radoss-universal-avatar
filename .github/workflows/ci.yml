@@ -30,6 +30,22 @@ jobs:
       - name: Run tests
         run: npm test
 
+      - name: Install browser for the local Avatar journey
+        run: npx playwright install --with-deps chromium
+
+      - name: Verify local Avatar browser journey
+        run: npx playwright test
+
+      - name: Upload browser evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: avatar-browser-evidence
+          path: |
+            playwright-report/
+            test-results/
+          if-no-files-found: ignore
+
       - name: Audit production dependencies
         run: npm audit --omit=dev --audit-level=high
 

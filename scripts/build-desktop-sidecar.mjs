@@ -13,7 +13,6 @@ const binariesDir = path.join(root, "desktop-setup", "src-tauri", "binaries");
 const explicitTarget = process.env.RADOS_TAURI_TARGET || process.env.TAURI_ENV_TARGET_TRIPLE || process.env.TARGET;
 
 function hostTarget() {
-  if (explicitTarget) return explicitTarget;
   const platform = process.platform;
   const arch = process.arch;
   if (platform === "darwin" && arch === "arm64") return "aarch64-apple-darwin";
@@ -25,9 +24,10 @@ function hostTarget() {
   throw new Error(`Unsupported sidecar host: ${platform}/${arch}`);
 }
 
-const target = hostTarget();
-if (explicitTarget && explicitTarget !== target) {
-  throw new Error(`Cross-target sidecar build is not supported by the local Node SEA toolchain: host=${target}, requested=${explicitTarget}. Build the sidecar on the target platform in CI.`);
+const actualHostTarget = hostTarget();
+const target = explicitTarget || actualHostTarget;
+if (target !== actualHostTarget) {
+  throw new Error(`Cross-target sidecar build is not supported by the local Node SEA toolchain: host=${actualHostTarget}, requested=${target}. Build the sidecar on the target platform in CI.`);
 }
 const extension = process.platform === "win32" ? ".exe" : "";
 const output = path.join(binariesDir, `radoss-setup-${target}${extension}`);

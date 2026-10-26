@@ -114,3 +114,28 @@ adapter describing its real URL and contract; it does not add Playwright,
 browser binaries, or Rust to the project. Rust is used only by a central Tauri
 or artifact adapter when process, IPC, filesystem, or signing evidence is
 needed. See the local harness README after installing the universal development environment.
+
+## Local Avatar profile and memory
+
+The current source adds an offline path: choose **Set up on this device only**, then save your display name, background, communication preferences and operating rules. No provider login is needed for that path.
+
+Your profile is stored in the local SQLite ledger. `~/.naavos/avatar.json` is its compiler-compatible export, readable by the main [NAAvOS compiler workspace](https://github.com/innosaint-uche/naavos). The editor refuses to overwrite an externally edited source file. Existing files are backed up before an editor save.
+
+Restart a configured agent to load its local MCP tools. `avatar_get` reads the profile and up to 50 approved memories. `avatar_memory_search` searches approved memory. `avatar_remember` and `avatar_memory_delete` require explicit confirmation. Paused mode blocks private context and memory access. Local notes are never automatically sent to the hosted gateway. Deletion removes active ledger/index entries; earlier backups may retain copies.
+
+The globally installed `naavos-cli` setup command and the compiler workspace's `pnpm exec naavos` are currently separate distributions. Use workspace commands from the compiler checkout for `init`, `compile`, `export` and conformance checks; use this runtime for desktop setup and local MCP. They share the Avatar export format. Do not assume that installing one distributes every command from the other.
+
+These additions are source changes. The previously published `v0.2.0-beta.1` installers predate them. A new installer must be built and tested from the reviewed revision before distribution.
+
+## Reproducible validation
+
+```sh
+npm ci
+npm test
+npx playwright install chromium
+npx playwright test
+node scripts/check-public-package.mjs
+npm audit --omit=dev
+```
+
+Desktop packaging requires Node 26 or newer. After building on the target OS, run `node scripts/verify-packaged-sidecar.mjs`. This checks the actual executable's embedded UI, offline setup, profile persistence, generated agent command and stdio MCP path. Browser CI uses an isolated home with synthetic data. These checks do not certify signing, notarisation, native installation or named-host acceptance.

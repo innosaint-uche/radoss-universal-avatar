@@ -10,6 +10,10 @@ let primaryAction = "setup";
 let busy = false;
 let initialRefresh = Promise.resolve();
 let privacyDirty = false;
+let profileDirty = false;
+for (const field of document.querySelectorAll('[id^="profile-"]')) {
+  field.addEventListener("input", () => { profileDirty = true; });
+}
 
 function safeMessage(value) {
   return String(value || "")
@@ -25,8 +29,7 @@ function syncBusyControls() {
     if (button.id === "refresh-button") continue;
     button.disabled = busy || button.dataset.blocked === "true";
   }
-  const name = $("#avatar-name");
-  if (name) name.disabled = busy;
+  for (const field of document.querySelectorAll("input, textarea, select")) field.disabled = busy;
 }
 
 function setBusy(value) {
@@ -223,7 +226,17 @@ function render(data) {
   if (providerButton) providerButton.hidden = !["user_hosted_cloudflare", "user_hosted_coolify", "managed_naas"].includes(hostingMode);
   if (!privacyDirty)
     $("#privacy-mode").value = data.privacy?.mode || "local_only";
-  if (data.avatar?.name) $("#avatar-name").value = data.avatar.name;
+  if (data.avatar?.name && document.activeElement !== $("#avatar-name")) $("#avatar-name").value = data.avatar.name;
+  if (data.avatar_profile && !profileDirty) {
+    const profile = data.avatar_profile;
+    $("#profile-name").value = profile.identity.name;
+    $("#profile-description").value = profile.identity.self_description || "";
+    $("#profile-tone").value = profile.communication.tone;
+    $("#profile-structure").value = profile.communication.structure;
+    $("#profile-verbosity").value = profile.communication.verbosity;
+    $("#profile-rules").value = profile.operating_rules.map((rule) => rule.statement).join("\n");
+    $("#profile-save-status").textContent = "Saved locally. Available to connected agents through avatar_get.";
+  }
   primaryAction =
     configured && accountPending
       ? secureStorageUnavailable
@@ -240,6 +253,8 @@ function render(data) {
         : configured
           ? "Run setup again"
           : "Set up my Avatar";
+
+  if (!data.providers?.huggingface?.configured) $("#setup-button").textContent = "Connect optional Hugging Face account";
 
   const projection = data.memory?.projection;
   const projectionContainer = $("#memory-projection");
@@ -506,16 +521,18 @@ $("#privacy-mode").addEventListener("change", () => {
   privacyDirty = true;
 });
 $("#privacy-button").addEventListener("click", async () => {
+  if (busy) return;
   const mode = $("#privacy-mode").value;
+  setBusy(true);
+  setAction("Saving privacy choice…");
   try {
     await initialRefresh;
     await request("/api/privacy", { method: "POST", body: { mode } });
     privacyDirty = false;
-    setAction("Privacy choice saved.");
     await refresh();
-  } catch (error) {
-    setAction(error.message);
-  }
+    setAction("Privacy choice saved.");
+  } catch (error) { setAction(safeMessage(error.message)); }
+  finally { setBusy(false); }
 });
 $("#refresh-button").addEventListener("click", refresh);
 $("#hosting-mode").addEventListener("change", () => {
@@ -672,3 +689,68 @@ $("#disconnect-button").addEventListener("click", async () => {
 });
 
 initialRefresh = refresh();
+
+$("#local-setup-button").addEventListener("click", async () => {
+  if (busy) return;
+  await initialRefresh;
+  setBusy(true);
+  try {
+    await request("/api/setup/run", { method: "POST", body: { provider: "local", openAuth: false, avatarName: $("#avatar-name").value } });
+    setAction("Local setup configured. Save your profile, then restart your agent to load its Avatar tool.");
+    await refresh();
+  } catch (error) { setAction(safeMessage(error.message)); }
+  finally { setBusy(false); }
+});
+
+$("#profile-save-button").addEventListener("click", async () => {
+  if (busy) return;
+  await initialRefresh;
+  setBusy(true);
+  try {
+    await request("/api/avatar/profile", { method: "POST", body: {
+      name: $("#profile-name").value, description: $("#profile-description").value,
+      tone: $("#profile-tone").value, structure: $("#profile-structure").value,
+      verbosity: $("#profile-verbosity").value,
+      rules: $("#profile-rules").value.split("\n").map((rule) => rule.trim()).filter(Boolean),
+    } });
+    profileDirty = false;
+    setAction("Avatar profile saved locally. Cloud sharing is off.");
+    await refresh();
+  } catch (error) { $("#profile-save-status").textContent = safeMessage(error.message); }
+  finally { setBusy(false); }
+});
+
+$("#memory-save-button").addEventListener("click", async () => {
+  if (busy) return;
+  setBusy(true);
+  try {
+    await request("/api/memory/ledger/save", { method: "POST", body: { content: $("#memory-note").value, confirm: true } });
+    $("#memory-note").value = "";
+    setAction("Approved memory saved locally.");
+    await refresh();
+  } catch (error) { setAction(safeMessage(error.message)); }
+  finally { setBusy(false); }
+});
+
+$("#memory-search-button").addEventListener("click", async () => {
+  if (busy) return;
+  setBusy(true);
+  try {
+    const { items } = await request("/api/memory/ledger/search", { method: "POST", body: { query: $("#memory-query").value } });
+    const container = $("#memory-results");
+    container.replaceChildren();
+    if (!items.length) container.textContent = "No approved memories found.";
+    for (const item of items) container.append(row(item.content, "Approved local memory", "Saved", "", { label: "Delete", handler: async () => {
+      if (busy || !window.confirm("Delete this note from the active ledger? Earlier backups may retain it.")) return;
+      setBusy(true);
+      try {
+        await request("/api/memory/ledger/delete", { method: "POST", body: { id: item.id, confirm: true } });
+        setAction("Memory deleted from the active ledger.");
+        container.replaceChildren();
+        await refresh();
+      } catch (error) { setAction(safeMessage(error.message)); }
+      finally { setBusy(false); }
+    } }));
+  } catch (error) { setAction(safeMessage(error.message)); }
+  finally { setBusy(false); }
+});

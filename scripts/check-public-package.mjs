@@ -14,7 +14,7 @@ if (manifest.publishConfig?.access !== "public")
 
 const forbidden = [
   /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/i,
-  /(?:ghp|github_pat|sk-proj|sk-ant)-[A-Za-z0-9_\-]{12,}/i,
+  /\b(?:gh[pousr]_[A-Za-z0-9_]{20,}|github_pat_[A-Za-z0-9_]{20,}|sk-(?:proj-|ant-)?[A-Za-z0-9_-]{20,}|hf_[A-Za-z0-9]{20,})\b/,
 ];
 const roots = [
   "bin",

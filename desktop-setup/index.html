@@ -31,11 +31,25 @@
           <div class="card-heading"><div><p class="eyebrow">START HERE</p><h2>Set up your Avatar</h2></div><span class="step-number">01</span></div>
           <label class="field-label" for="avatar-name">Avatar name</label>
           <input id="avatar-name" value="My Avatar" maxlength="80" autocomplete="off" aria-describedby="avatar-help" />
-          <p id="avatar-help">We will create your Avatar, open a secure browser connection, configure Codex, Antigravity, and Hermes, and check what is actually working.</p>
-          <button class="primary" id="setup-button">Set up my Avatar</button>
+          <p id="avatar-help">Create your local Avatar and configure Codex, Antigravity, and Hermes. Save your preferences below. Connecting a provider account is optional.</p>
+          <button class="primary" id="local-setup-button">Set up on this device only</button>
+          <button class="secondary" id="setup-button">Set up my Avatar</button>
           <button class="secondary" id="retry-button">Retry last setup</button>
           <p id="setup-detail" class="setup-detail" role="status" aria-live="polite">Your setup is reversible. We create a backup before changing anything.</p>
           <p class="microcopy">No terminal. No config editing.</p>
+        </article>
+        <article class="card wide-card">
+          <div class="card-heading"><div><p class="eyebrow">YOUR CONTEXT</p><h2>How should AI work with you?</h2></div></div>
+          <p class="microcopy">Saved on this device. Your connected AI host receives this context when it requests your Avatar. Automatic cloud sync is off.</p>
+          <label class="field-label" for="profile-name">Your display name</label><input id="profile-name" maxlength="80" autocomplete="name" />
+          <label class="field-label" for="profile-description">About you</label><textarea id="profile-description" maxlength="2000" rows="3"></textarea>
+          <label class="field-label" for="profile-tone">Tone</label><input id="profile-tone" maxlength="200" value="Warm and direct" />
+          <label class="field-label" for="profile-structure">Response structure</label><input id="profile-structure" maxlength="200" value="Clear paragraphs and actionable lists" />
+          <label class="field-label" for="profile-verbosity">Level of detail</label><input id="profile-verbosity" maxlength="200" value="Concise, with detail when needed" />
+          <label class="field-label" for="profile-rules">Operating rules, one per line</label><textarea id="profile-rules" maxlength="100000" rows="5">Ask before sharing private context.
+Cite evidence before claiming a task is complete.</textarea>
+          <button class="primary" id="profile-save-button">Save my Avatar profile</button>
+          <p id="profile-save-status" role="status" aria-live="polite">No profile saved yet.</p>
         </article>
         <article class="card authority-card">
           <div class="card-heading"><div><p class="eyebrow">AUTHORITY</p><h2>Where your Avatar lives</h2></div></div>
@@ -72,6 +86,16 @@
           <div class="card-heading"><div><p class="eyebrow">OPTIONAL MEMORY</p><h2>Readable memory projection</h2></div><div class="button-row compact"><button class="secondary small" id="reme-button" hidden>Set up ReMe</button><button class="secondary small" id="reme-project-button" hidden>Project approved memory</button></div></div>
           <div id="memory-projection" class="rows"><p class="muted">Checking ReMe…</p></div>
           <p class="microcopy">SQLite + FTS5 remains canonical. ReMe is optional, local, user-owned, and never installed or started silently.</p>
+        </article>
+        <article class="card wide-card">
+          <div class="card-heading"><div><p class="eyebrow">APPROVED MEMORY</p><h2>Remember what matters</h2></div></div>
+          <label class="field-label" for="memory-note">A fact or preference you want your connected AI to remember</label>
+          <textarea id="memory-note" rows="3" maxlength="10000"></textarea>
+          <button class="primary" id="memory-save-button">Approve and save locally</button>
+          <label class="field-label" for="memory-query">Find an approved memory</label><input id="memory-query" maxlength="500" />
+          <button class="secondary" id="memory-search-button">Search memory</button>
+          <div id="memory-results" class="rows" role="status" aria-live="polite"></div>
+          <p class="microcopy">Only approved notes are searchable. Deletion removes the active note; an earlier backup may retain a copy.</p>
         </article>
         <article class="card wide-card">
           <div class="card-heading"><div><p class="eyebrow">CONNECTED AGENTS</p><h2>One control surface</h2></div><button class="quiet" id="refresh-button">Refresh</button></div>
