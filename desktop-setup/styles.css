@@ -81,3 +81,15 @@ button:disabled { cursor: not-allowed; opacity: .65; transform: none; }
 }
 
 textarea { width: 100%; box-sizing: border-box; padding: 12px; border: 1px solid #45475a; border-radius: 10px; color: inherit; background: #14161e; font: inherit; resize: vertical; }
+
+.card, .row > div, .card-heading > div { min-width: 0; }
+.row-title, .row-meta, .row-status, .microcopy { overflow-wrap: anywhere; }
+@media (max-width: 760px) {
+  .grid { grid-template-columns: minmax(0, 1fr); }
+  .row { flex-direction: column; align-items: flex-start; }
+  .row-status { text-align: left; }
+  .row-actions { justify-content: flex-start; }
+  .card-heading { flex-wrap: wrap; }
+}
+
+.hero-card { grid-column: 1 / -1; }

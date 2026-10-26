@@ -254,6 +254,8 @@ function render(data) {
           ? "Run setup again"
           : "Set up my Avatar";
 
+  if (!data.providers?.huggingface?.configured) $("#setup-button").textContent = "Connect optional Hugging Face account";
+
   const projection = data.memory?.projection;
   const projectionContainer = $("#memory-projection");
   projectionContainer.replaceChildren();
@@ -519,16 +521,18 @@ $("#privacy-mode").addEventListener("change", () => {
   privacyDirty = true;
 });
 $("#privacy-button").addEventListener("click", async () => {
+  if (busy) return;
   const mode = $("#privacy-mode").value;
+  setBusy(true);
+  setAction("Saving privacy choice…");
   try {
     await initialRefresh;
     await request("/api/privacy", { method: "POST", body: { mode } });
     privacyDirty = false;
-    setAction("Privacy choice saved.");
     await refresh();
-  } catch (error) {
-    setAction(error.message);
-  }
+    setAction("Privacy choice saved.");
+  } catch (error) { setAction(safeMessage(error.message)); }
+  finally { setBusy(false); }
 });
 $("#refresh-button").addEventListener("click", refresh);
 $("#hosting-mode").addEventListener("change", () => {

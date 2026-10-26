@@ -154,3 +154,37 @@ test("browser login fails before opening OAuth when secure storage is unavailabl
     /Secure OS credential storage is unavailable/
   );
 });
+
+test("expired cached tokens are not returned when refresh discovery is unavailable", async () => {
+  const tokenStore = oauth.createMemoryTokenStore();
+  tokenStore.set("oauth:expired", { access_token: "expired-fixture", expires_at: Date.now() - 1000 });
+  const token = await oauth.getStoredAccessToken({ id: "expired", endpoint: "https://provider.example/mcp" }, {
+    tokenStore, fetchImpl: async () => { throw new Error("offline"); }
+  });
+  assert.equal(token, null);
+});
+
+test("refresh responses require a new valid token and cannot turn an expired token into an unbounded session", async () => {
+  const tokenStore = oauth.createMemoryTokenStore();
+  tokenStore.set("oauth:refresh", { access_token: "expired-fixture", refresh_token: "refresh-fixture", client_id: "client", expires_at: Date.now() - 1000 });
+  const stored = structuredClone(tokenStore.get("oauth:refresh"));
+  const server = { id: "refresh", endpoint: "https://provider.example/mcp" };
+  const metadata = { token_endpoint: "https://provider.example/token" };
+  await assert.rejects(oauth.getStoredAccessToken(server, { tokenStore, metadata, fetchImpl: async () => Response.json({}) }), /no valid access_token/);
+  assert.deepEqual(tokenStore.get("oauth:refresh"), stored);
+  await assert.rejects(oauth.getStoredAccessToken(server, { tokenStore, metadata, fetchImpl: async (_url, options) => {
+    assert.equal(options.redirect, "error");
+    assert.ok(options.signal);
+    return Response.json({ access_token: "new-fixture", expires_in: "forever" });
+  } }), /invalid expires_in/);
+  assert.deepEqual(tokenStore.get("oauth:refresh"), stored);
+  assert.equal(await oauth.getStoredAccessToken(server, { tokenStore, metadata, fetchImpl: async () => Response.json({ access_token: "new-fixture", expires_in: 3600 }) }), "new-fixture");
+});
+
+test("OAuth rejects insecure userinfo before opening the browser or sending a bearer token", async () => {
+  await assert.rejects(oauth.startPkceOAuth({ id: "insecure", endpoint: "https://provider.example/mcp" }, {
+    metadata: { authorization_endpoint: "https://provider.example/authorize", token_endpoint: "https://provider.example/token", userinfo_endpoint: "http://public.example/userinfo" },
+    clientId: "fixture", tokenStore: oauth.createMemoryTokenStore(),
+    openBrowser: async () => { throw new Error("must not open"); }
+  }), /insecure OAuth/);
+});

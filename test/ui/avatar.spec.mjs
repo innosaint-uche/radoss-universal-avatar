@@ -64,18 +64,17 @@ test("offline Avatar creation, profile persistence, approved memory, deletion an
   await expect(page.locator("#profile-save-status")).toContainText("paused");
   await page.locator("#privacy-mode").selectOption("local_only");
   await page.getByRole("button", { name: "Save privacy choice" }).click();
+  await expect(page.locator("#last-action")).toHaveText("Privacy choice saved.");
+  await expect(page.locator("#profile-save-status")).toContainText("Saved locally");
   await page.screenshot({
     path: "test-results/avatar-desktop.png",
     fullPage: true,
   });
-  await page.setViewportSize({ width: 390, height: 844 });
-  await expect(page.locator("#profile-name")).toBeVisible();
-  expect(
-    await page.evaluate(() => document.documentElement.scrollWidth),
-  ).toBeLessThanOrEqual(390);
-  await page.screenshot({
-    path: "test-results/avatar-mobile.png",
-    fullPage: true,
-  });
+  for (const width of [390, 320]) {
+    await page.setViewportSize({ width, height: 844 });
+    await expect(page.locator("#profile-name")).toBeVisible();
+    await page.screenshot({ path: `test-results/avatar-mobile-${width}.png`, fullPage: true });
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
+  }
   expect(errors).toEqual([]);
 });
